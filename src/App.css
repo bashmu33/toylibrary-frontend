@@ -1,0 +1,235 @@
+*{
+  position:relative;
+  float:left;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 100vh;
+}
+
+#root {
+  width: 100%;
+}
+
+.holder {
+  position: relative;
+  float:left;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Align buttons and style logo/tagline */
+.topsection {
+  width: 90%;
+  height: 10%;
+  margin-left: 5%;
+}
+
+.topsection h1 {
+  font-family: 'Montserrat Alternates', sans-serif;
+  width: 100%;
+}
+
+.topsection h3 {
+  font-family: 'Shadows Into Light', cursive;
+  width: 100%;
+}
+
+.buttonholder {
+  position:absolute;
+  width: 30%;
+  height: 40%;
+  top:50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.buttonholder button {
+  float:right;
+  margin-left: 5%;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.mainsection {
+  height: 60%;
+  width: 90%;
+  margin:5% 5%;
+  /* background-color: orange; */
+}
+
+.leftsection {
+  /* background-color: blueviolet; */
+  width:40%;
+  height:100%;
+  /* border: black double; */
+  /* background-color: yellow; */
+}
+
+.leftsection h2 {
+  margin: 5%;
+}
+
+.leftsection p {
+  margin: 5%; 
+}
+
+
+.buttoncontainer {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  padding: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.buttoncontainer button {
+  flex: 0 0 48%;
+  margin: 5px;
+}
+
+.buttoncontainer button.full-width {
+  flex-basis: 98%;
+}
+
+
+.rightsection {
+  width: 50%;
+  height: 100%;
+  float: right;
+  /* background-color: red; */
+}
+
+.rightsection div {
+  /* margin-top: 5%; */
+  width: 100%;
+  /* height: 80%; */
+  display:grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  gap: 10px;
+}
+
+.rightsection img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* .searchbar {
+  margin-left: 1%;
+  width: 98%;
+  height: 10%;
+  padding: 2%;
+} */
+
+.login {
+  z-index: 10;
+  position: absolute;
+  left:50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  height:350px;
+  width:500px;
+  border: 2px solid black;
+  background-color: whitesmoke;
+}
+
+.login h1 {
+  position: relative;
+  float: left;
+  width:90%;
+  margin:5%;
+}
+
+.login h4 {
+  position: relative;
+  float: left;
+  width: 90%;
+  margin: 5%;
+}
+
+
+.mainsection {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  grid-gap: 10%; /* Gap between columns */
+  height: 60%;
+  width: 100%;
+  margin: 5% auto;
+}
+
+.leftsection {
+  margin-left: 10%;
+  width: 100%;
+}
+
+.rightsection {
+  display: grid;
+  grid-template-rows: auto 1fr; /* Auto-sized row for search bar, remaining space for images */
+}
+
+.imageholder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid with minimum column width of 200px */
+  grid-gap: 10px; /* Gap between images */
+}
+
+
+
+.form-control {
+  width: 100%;
+  height: 30px;
+}
+
+.login-card {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+}
+
+.login-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent background color */
+  z-index: 9999; /* Set a higher z-index to ensure the login box is on top */
+}
+
+
+.login-card {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.close-x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-icon {
+  font-size: 20px;
+  line-height: 1;
+  color: #000;
+}
