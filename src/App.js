@@ -11,6 +11,11 @@ import { Button } from 'react-bootstrap';
 const App = () => {
   const [displayPage, setDisplayPage] = useState(null);
   const [displayLoginBox, setDisplayLoginBox] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  const handleLoginSuccess = (userId) => {
+    setUserId(userId);
+  };
 
   const handleBecomeMemberClick = () => {
     setDisplayPage('becomeMember');
@@ -36,13 +41,13 @@ const App = () => {
     if (displayPage === 'becomeMember') {
       return <BecomeMember />;
     } else if (displayPage === 'toyInventory') {
-      return <ToyInventory />;
+      return <ToyInventory userId={userId} />;
     } else if (displayPage === 'adminPortal') {
       return <AdminPortal />;
     } else {
       return (
         <>
-          <Navigation loginClicked={handleLoginClick} becomeMemberClicked={handleBecomeMemberClick} />
+          <Navigation loginClicked={handleLoginClick} becomeMemberClicked={handleBecomeMemberClick} onLoginSuccess={handleLoginSuccess}  />
           <MainSection handleToyInventoryClick={handleToyInventoryClick} />
           {displayLoginBox && <LoginBox hideLoginBox={hideLoginBox} />}
           <Button variant="primary" onClick={handleAdminPortalClick}>

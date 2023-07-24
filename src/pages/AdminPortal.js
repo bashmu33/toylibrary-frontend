@@ -7,7 +7,6 @@ const ageCategories = [
     'Age 6m+',
     'Age 9m+',
     'Age 12m+',
-    'Age 1+',
     'Age 2+',
     'Age 3+',
     'Age 4+',

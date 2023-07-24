@@ -1,18 +1,31 @@
 import React from 'react';
 import ToyItem from './ToyItem';
+import PropTypes from 'prop-types';
 
-const ToyList = ({ toys, onHoldButtonClick }) => {
+const ToyList = ({ toys, onReserveButtonClick }) => {
     return (
         <div>
             {toys.map((toy) => (
                 <ToyItem
-                    key={toy.id}
+                    key={toy.toy_id}
                     toy={toy}
-                    onHoldButtonClick={onHoldButtonClick}
+                    // onReserveButtonClick={onReserveButtonClick}
                 />
             ))}
         </div>
     );
 };
 
-export default ToyList;
+ToyList.propTypes = {
+    toys: PropTypes.arrayOf(
+      PropTypes.shape({
+        toy_id: PropTypes.number.isRequired,
+        toy_name: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        age_category: PropTypes.string,
+        toy_status: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  };
+  
+  export default ToyList;
