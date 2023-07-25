@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 
 const ToyList = ({ toys, onReserveButtonClick }) => {
     return (
-        <div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '1200px', margin: '0 auto' }}>
             {toys.map((toy) => (
                 <ToyItem
                     key={toy.toy_id}
                     toy={toy}
-                    // onReserveButtonClick={onReserveButtonClick}
+                    onReserveButtonClick={onReserveButtonClick}
                 />
             ))}
         </div>
@@ -24,8 +24,9 @@ ToyList.propTypes = {
         description: PropTypes.string,
         age_category: PropTypes.string,
         toy_status: PropTypes.string.isRequired,
-      })
+        })
     ).isRequired,
+    onReserveButtonClick: PropTypes.func.isRequired, 
   };
   
   export default ToyList;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const ageCategories = [
     'Age 3m+',
@@ -25,6 +26,7 @@ const AdminPortal = () => {
     toy_status: 'available',
     toy_image: '',
 });
+
 
 const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,9 +92,18 @@ return (
         Add Toy
         </Button>
     </Form>
+    {/* <div>
+      <h2>Delete Toy</h2>
+      <input
+        type="integer"
+        value={toyId}
+        onChange={(e) => setToyId(e.target.value)}
+        placeholder="Enter Toy ID"
+      />
+      <button onClick={handleDeleteToy}>Delete Toy</button>
+    </div> */}
     </div>
 );
 };
 
 export default AdminPortal;
-

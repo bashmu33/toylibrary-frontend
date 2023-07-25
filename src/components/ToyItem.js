@@ -3,32 +3,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const ToyItem = ({ toy }) => {
-  const { toy_image, toy_name, description, age_category, toy_status } = toy;
+const ToyItem = ({ toy, onReserveButtonClick }) => {
+  const { toy_id, toy_image, toy_name, description, age_category, toy_status } = toy;
+
+  const handleReserveClick = async () => {
+    if (toy_status === 'available') {
+      // Call the onReserveButtonClick function with  toy_id
+      const success = await onReserveButtonClick(toy_id);
+      if (success) {
+        // The reservation was successful, the status changes in ToyInventory
+      }
+    }
+  };
 
   return (
-    <Card style={{ marginBottom: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ width: '30%', padding: '10px' }}>
+    <Card style={{ position: 'relative', marginBottom: '20px', width: '45%', minWidth: '300px' }}>
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div style={{ width: '40%', padding: '10px' }}>
           <img
             src={toy_image}
             alt={toy_name}
-            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+            style={{ width: '100%', height: '250px', objectFit: 'cover' }}
           />
         </div>
-        <div style={{ width: '70%', padding: '10px' }}>
+        <div style={{ width: '60%', padding: '10px', position: 'relative' }}>
           <Card.Body>
             <Card.Title>{toy_name}</Card.Title>
             <Card.Text>Recommended Age:{age_category}</Card.Text>
             <Card.Text>{description}</Card.Text>
-            <Button
+          </Card.Body>
+          <Button
               style={{ position: 'absolute', bottom: '10px', right: '10px' }}
               variant={toy_status === 'available' ? 'primary' : 'secondary'}
               disabled={toy_status === 'reserved'}
+              onClick={handleReserveClick} 
             >
               {toy_status === 'available' ? 'Reserve Toy' : 'Reserved'}
             </Button>
-          </Card.Body>
         </div>
       </div>
     </Card>
@@ -42,8 +53,9 @@ ToyItem.propTypes = {
     description: PropTypes.string,
     age_category: PropTypes.string,
     toy_status: PropTypes.string.isRequired,
-    toy_image: PropTypes.string, // Make sure this is the correct key for the toy image
+    toy_image: PropTypes.string, 
   }).isRequired,
+  onReserveButtonClick: PropTypes.func.isRequired, 
 };
 
 export default ToyItem;
