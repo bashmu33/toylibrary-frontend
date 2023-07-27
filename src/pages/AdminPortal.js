@@ -40,7 +40,7 @@ const AdminPortal = () => {
             toy_image: formData.toy_image,
         };
 
-        axios.post('https://fw-toy-library-b75c4b0033c3.herokuapp.com/toys', newToy)
+        axios.post('https://back-end-fw-toy-library-57ceab9432db.herokuapp.com/toys', newToy)
             .then(response => {
                 console.log('New Toy:', response.data.new_toy);
                 // Clear form after submitting
