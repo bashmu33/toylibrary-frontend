@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ToyList from '../components/ToyList';
 import axios from 'axios';
 
-const kBaseUrl = "http://127.0.0.1:5000";
+const kBaseUrl = "https://fw-toy-library-b75c4b0033c3.herokuapp.com/";
 
   const ToyInventory = () => {
       const [toys, setToys] = useState([]);
