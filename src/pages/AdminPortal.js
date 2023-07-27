@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 const ageCategories = [
@@ -44,7 +43,7 @@ const AdminPortal = () => {
         axios.post('http://localhost:5000/toys', newToy)
             .then(response => {
                 console.log('New Toy:', response.data.new_toy);
-                // Clear form after submission
+                // Clear form after submitting
                 setFormData({
                     toy_name: '',
                     description: '',
