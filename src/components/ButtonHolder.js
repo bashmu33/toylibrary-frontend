@@ -1,12 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-const ButtonHolder = ({ loginClicked, becomeMemberClicked }) => {
+const ButtonHolder = ({ loginClicked, history }) => {
   const displayLoginBox = () => {
     loginClicked();
   };
 
-  const displayBecomeMember = () => {
-    becomeMemberClicked();
+  const handleSignUpPageClick = () => {
+    //navigates to the ToyInventory page
+    history.push('/sign-up');
   };
 
   return (
@@ -14,11 +16,11 @@ const ButtonHolder = ({ loginClicked, becomeMemberClicked }) => {
       <button className="btn btn-secondary" onClick={displayLoginBox}>
         Login
       </button>
-      <button className="btn btn-secondary" onClick={displayBecomeMember}>
-        Become a Member
+      <button className="btn btn-secondary" onClick={handleSignUpPageClick}>
+        Sign Up
       </button>
     </div>
   );
 };
 
-export default ButtonHolder;
+export default withRouter(ButtonHolder);
