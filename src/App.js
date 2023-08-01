@@ -6,17 +6,14 @@ import ToyInventory from './pages/ToyInventory';
 import LoginBox from './components/LoginBox';
 import AdminPortal from './pages/AdminPortal';
 import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
+import RegistrationPage from './pages/RegistrationPage'
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom'; // useHistory hook
 import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => {
   const [displayLoginBox, setDisplayLoginBox] = useState(false);
-  // const [userId, setUserId] = useState('');
-
-  // const handleLoginSuccess = (userId) => {
-  //   setUserId(userId);
-  // };
 
   const handleLoginClick = () => {
     setDisplayLoginBox(true);
@@ -33,11 +30,6 @@ const App = () => {
     history.push('/toy-inventory');
   };
 
-  // const handleSignUpPageClick = () => {
-  //   //navigates to the SignUp page
-  //   history.push('/sign-up');
-  // };
-
   return (
     <AuthProvider>
       <Router>
@@ -45,6 +37,8 @@ const App = () => {
           <Navigation loginClicked={handleLoginClick} />
           <Switch>
             <Route path="/sign-up" component={SignUpPage} />
+            <Route path="/register" component={RegistrationPage} />
+            <Route path="/login" component={LoginPage} />
             <Route path="/toy-inventory" component={ToyInventory} />
             <Route path="/admin-portal" component={AdminPortal} />
             <Route exact path="/">

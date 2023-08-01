@@ -2,8 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 const ButtonHolder = ({ loginClicked, history }) => {
-  const displayLoginBox = () => {
-    loginClicked();
+  const handleLoginPageClick = () => {
+    history.push('/login');
   };
 
   const handleSignUpPageClick = () => {
@@ -13,7 +13,7 @@ const ButtonHolder = ({ loginClicked, history }) => {
 
   return (
     <div className="buttonholder">
-      <button className="btn btn-secondary" onClick={displayLoginBox}>
+      <button className="btn btn-secondary" onClick={handleLoginPageClick}>
         Login
       </button>
       <button className="btn btn-secondary" onClick={handleSignUpPageClick}>
