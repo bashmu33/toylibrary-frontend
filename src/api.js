@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Define the API endpoint URL for adding a user
-const apiUrl = 'https://toy-library.onrender.com/user'; // Replace with your backend's API URL
+const apiUrl = 'https://toy-library.onrender.com/users'; // Replace with your backend's API URL
 
 // Function to add the user data to the backend
 export async function addUserToBackend(userData) {
