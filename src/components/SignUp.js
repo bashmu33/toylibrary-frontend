@@ -1,40 +1,39 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { useAuth } from '../contexts/AuthContext';
+// import { useAuth } from '../contexts/AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase'; // Import the auth object from your firebase.js file
 
 export default function SignUp() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const { currentUser } = useAuth();
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Set to false initially
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const passwordConfirmRef = useRef();
+    //   const { signup } = useAuth();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); // Set to false initially
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+    async function handleSubmit(e) {
+        e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError('Passwords do not match');
-    }
+        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+        return setError('Passwords do not match');
+        }
 
-    try {
-      setError('');
-      setLoading(true);
-      await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
-    } catch {
-      setError('Failed to create an account');
-    }
-    setLoading(false);
-    }
+        try {
+        setError('');
+        setLoading(true);
+        await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
+        } catch {
+        setError('Failed to create an account');
+        }
+        setLoading(false);
+        }
 
     return (
         <>
         <Card>
             <Card.Body>
             <h2 className="text-center mb-4">Sign Up</h2>
-            {currentUser && currentUser.email}
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
                 <Form.Group id="email">
