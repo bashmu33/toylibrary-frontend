@@ -12,15 +12,6 @@ import { useHistory } from 'react-router-dom'; // useHistory hook
 import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => {
-  const [displayLoginBox, setDisplayLoginBox] = useState(false);
-
-  const handleLoginClick = () => {
-    setDisplayLoginBox(true);
-  };
-
-  const hideLoginBox = () => {
-    setDisplayLoginBox(false);
-  };
 
   const history = useHistory(); // Creates history object
 
@@ -33,7 +24,7 @@ const App = () => {
     <AuthProvider>
       <Router>
         <div className="holder">
-          <Navigation loginClicked={handleLoginClick} />
+          <Navigation />
           <Switch>
             <Route path="/sign-up" component={SignUpPage} />
             <Route path="/register" component={RegistrationPage} />
