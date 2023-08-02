@@ -1,18 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { addUserToBackend } from '../api'; // Import the function to add the user data to the backend
-import { useAuth } from '../contexts/AuthContext'; // Import the AuthContext for accessing the currentUser
+import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
+import { addUserToBackend } from '../api'; // Import the function to add the user data to the backend
 
 export default function RegistrationPage() {
 const firstNameRef = useRef();
 const lastNameRef = useRef();
 const dateOfBirthRef = useRef();
 const phoneNumberRef = useRef();
-const { currentUser } = useAuth(); // Use the useAuth hook to get the currentUser
+const { currentUser } = useAuth();
 const [error, setError] = useState('');
 const [loading, setLoading] = useState(false);
-const history = useHistory()
+const history = useHistory();
 
 async function handleSubmit(e) {
     e.preventDefault();
@@ -21,18 +21,16 @@ async function handleSubmit(e) {
     setError('');
     setLoading(true);
 
-    // Get the user data from the form
     const userData = {
         first_name: firstNameRef.current.value,
         last_name: lastNameRef.current.value,
         date_of_birth: dateOfBirthRef.current.value,
         phone_number: phoneNumberRef.current.value,
-        email: currentUser.email, // Use the email from Firebase currentUser
+        email: currentUser.email,
     };
 
-    // Call the API function to add the user data to the backend
-    await addUserToBackend(userData);
-    history.push("/register")
+    await addUserToBackend(userData); // Call the API function to add the user data to the backend
+    history.push('/'); // Redirect to the homepage after successful registration
 
     } catch (error) {
     setError('Failed to register');
