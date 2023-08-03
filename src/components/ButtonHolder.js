@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; 
 import { auth } from '../firebase'; 
 
-const ButtonHolder = ({ loginClicked, history }) => {
+const ButtonHolder = ({ history }) => {
   const { currentUser } = useAuth(); // U
 
   const handleLoginPageClick = () => {
@@ -11,7 +11,7 @@ const ButtonHolder = ({ loginClicked, history }) => {
   };
 
   const handleSignUpPageClick = () => {
-    history.push('/signup');
+    history.push('/sign-up');
   };
 
   const handleLogoutClick = async () => {

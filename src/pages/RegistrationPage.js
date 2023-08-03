@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,20 @@ const phoneNumberRef = useRef();
 const { currentUser } = useAuth();
 const [error, setError] = useState('');
 const [loading, setLoading] = useState(false);
+const [fetchingUser, setFetchingUser] = useState(true); 
 const history = useHistory();
+
+useEffect(() => {
+    if (currentUser) {
+    // User data has been fetched
+    setFetchingUser(false);
+    }
+}, [currentUser]);
+    
+
+console.log('currentUser:', currentUser);
+console.log('currentUser.uid:', currentUser.uid);
+
 
 async function handleSubmit(e) {
     e.preventDefault();
@@ -21,12 +34,21 @@ async function handleSubmit(e) {
     setError('');
     setLoading(true);
 
+    if (!currentUser) {
+        history.push('/')
+        return;
+    }
+
+    console.log('currentUser:', currentUser);
+    console.log('currentUser.uid:', currentUser.uid);
+
     const userData = {
         first_name: firstNameRef.current.value,
         last_name: lastNameRef.current.value,
         date_of_birth: dateOfBirthRef.current.value,
         phone_number: phoneNumberRef.current.value,
         email: currentUser.email,
+        firebase_uid: currentUser.uid, 
     };
 
     await addUserToBackend(userData); // Call the API function to add the user data to the backend
