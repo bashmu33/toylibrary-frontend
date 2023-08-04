@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import { auth, firestore } from '../firebase';
 import { addUserToBackend } from '../api';
 // import { createUserWithEmailAndPassword } from 'firebase/auth'; 
 
@@ -37,10 +37,29 @@ useEffect(() => {
         return () => unsubscribe();
 }, []);
 
+async function isAdmin() {
+    if (currentUser) {
+        try {
+            const snapshot = await firestore.collection('roles').doc('admin').get();
+            const adminData = snapshot.data();
+
+            if (adminData && adminData.permissions && adminData.permissions.manageUsers) {
+                return true;
+            }
+        } catch (error) {
+            console.error('Error checking admin role:', error);
+        }
+    }
+
+    return false;
+}
+
+
 const value = {
     currentUser,
     login,
     signup,
+    isAdmin,
 };
 
 return (

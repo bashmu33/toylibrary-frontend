@@ -25,6 +25,7 @@ const ToyList = ({ toys, onReserveButtonClick, auth, setToys }) => {
             toy_name: PropTypes.string.isRequired,
             description: PropTypes.string,
             age_category: PropTypes.string,
+            toy_image: PropTypes.string,
             toy_status: PropTypes.string.isRequired,
             })
         ).isRequired,

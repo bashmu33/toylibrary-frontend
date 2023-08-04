@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext'; 
+// import { isAdmin } from '../contexts/AuthContext';
+
 
 const ageCategories = [
     'Age 3m+',
@@ -17,6 +20,7 @@ const ageCategories = [
 ];
 
 const AdminPortal = () => {
+    const { isAdmin } = useAuth(); 
     const [formData, setFormData] = useState({
         toy_name: '',
         description: '',
@@ -57,9 +61,22 @@ const AdminPortal = () => {
             });
     };
 
+    const [isAdminUser, setIsAdminUser] = useState(false); 
+    
+    useEffect(() => {
+        // Check if the current user is an admin
+        const checkAdminStatus = async () => {
+            const adminStatus = await isAdmin();
+            setIsAdminUser(adminStatus);
+        };
+
+        checkAdminStatus();
+    }, []);
+
     return (
         <div className="admin-portal">
             <h2>Administrative Portal</h2>
+            {isAdminUser ? (
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="toy_name">
                     <Form.Label>Toy Name:</Form.Label>
@@ -92,12 +109,32 @@ const AdminPortal = () => {
                 </Form.Group>
                 <Form.Group controlId="toy_image">
                     <Form.Label>Toy Image URL:</Form.Label>
-                    <Form.Control type="url" name="toy_image" value={formData.toy_image} onChange={handleChange} />
+                    <Form.Control
+                        type="url"
+                        name="toy_image"
+                        value={formData.toy_image}
+                        onChange={handleChange}
+                    />
+                    <Form.Text className="text-muted">
+                        Enter the URL of the toy image in your AWS S3 bucket.
+                    </Form.Text>
                 </Form.Group>
+
+                {/* Image Display */}
+                {formData.toy_image && (
+                    <div>
+                        <h5>Preview</h5>
+                        <img src={formData.toy_image} alt="Toy" style={{ maxWidth: '100%', height: 'auto' }} />
+                    </div>
+                )}
+
                 <Button variant="primary" type="submit">
                     Add Toy
                 </Button>
             </Form>
+            ) : (
+                <p>You do not have permission to access this page.</p>
+            )}
         </div>
     );
 };
