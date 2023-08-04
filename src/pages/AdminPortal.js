@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext'; 
-// import { isAdmin } from '../contexts/AuthContext';
 
 
 const ageCategories = [
@@ -20,7 +19,6 @@ const ageCategories = [
 ];
 
 const AdminPortal = () => {
-    const { isAdmin } = useAuth(); 
     const [formData, setFormData] = useState({
         toy_name: '',
         description: '',
@@ -61,17 +59,22 @@ const AdminPortal = () => {
             });
     };
 
-    const [isAdminUser, setIsAdminUser] = useState(false); 
-    
+    const { isAdmin } = useAuth();
+
+    const [isAdminUser, setIsAdminUser] = useState(false);
+
     useEffect(() => {
-        // Check if the current user is an admin
+        //Check if the currentuser is  admin
         const checkAdminStatus = async () => {
-            const adminStatus = await isAdmin();
-            setIsAdminUser(adminStatus);
+        const adminStatus = await isAdmin();
+        setIsAdminUser(adminStatus);
+        console.log("isAdminUser:", adminStatus); //check
         };
 
-        checkAdminStatus();
-    }, []);
+    checkAdminStatus();
+}, []);
+
+console.log("Rendering with isAdminUser:", isAdminUser);
 
     return (
         <div className="admin-portal">

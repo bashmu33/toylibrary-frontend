@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { auth, firestore } from '../firebase';
+import { auth } from '../firebase';
 import { addUserToBackend } from '../api';
-// import { createUserWithEmailAndPassword } from 'firebase/auth'; 
 
 const AuthContext = React.createContext();
 
 export function useAuth() {
-    return React.useContext(AuthContext);
+return React.useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
@@ -19,7 +18,7 @@ function signup(email, password, userData) {
         const user = userCredential.user;
         const { uid } = user;
 
-        // Store additional user data in the backend
+        //here i am storing additional data in backend
         const userDataWithUID = { ...userData, firebase_uid: uid };
         return addUserToBackend(userDataWithUID);
     });
@@ -34,26 +33,16 @@ useEffect(() => {
     setLoading(false);
     setCurrentUser(user);
     });
-        return () => unsubscribe();
+    return () => unsubscribe();
 }, []);
 
 async function isAdmin() {
     if (currentUser) {
-        try {
-            const snapshot = await firestore.collection('roles').doc('admin').get();
-            const adminData = snapshot.data();
-
-            if (adminData && adminData.permissions && adminData.permissions.manageUsers) {
-                return true;
-            }
-        } catch (error) {
-            console.error('Error checking admin role:', error);
-        }
+    const adminEmails = ['adastudent123@gmail.com'];
+    return adminEmails.includes(currentUser.email);
     }
-
     return false;
 }
-
 
 const value = {
     currentUser,
@@ -68,4 +57,3 @@ return (
     </AuthContext.Provider>
 );
 }
-
