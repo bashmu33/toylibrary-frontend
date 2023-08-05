@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import MainSection from './components/MainSection';
 import ToyInventory from './pages/ToyInventory';
@@ -7,7 +7,6 @@ import AdminPortal from './pages/AdminPortal';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage'
-import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom'; // useHistory hook
 import { AuthProvider } from './contexts/AuthContext';
 

@@ -1,58 +1,56 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { auth } from '../firebase';
+import React, { useState, useEffect } from 'react';
+import ToyList from '../components/ToyList';
+import axios from 'axios';
+import { getAuth } from 'firebase/auth';
 
-const ButtonHolder = ({ history }) => {
-  const { currentUser, isAdmin } = useAuth();
+const kBaseUrl = "https://toy-library.onrender.com";
 
-  const handleLoginPageClick = () => {
-    history.push('/login');
-  };
+  const ToyInventory = () => {
+      const [toys, setToys] = useState([]);
+      const auth = getAuth(); // Get the auth object
+    
+      useEffect(() => {
+        // get toy information from the backend API
+        const fetchToys = async () => {
+          try {
+            const response = await axios.get(`${kBaseUrl}/toys`);
+            setToys(response.data);
+          } catch (error) {
+            console.error('Error fetching toy information:', error);
+          }
+        };
+    
+        fetchToys();
+      }, []);
+    
+    const handleReserveButtonClick = async (toy_id) => {
+      try {
+        const user = auth.currentUser;
+        const userId = user.uid;
+    
+        const response = await axios.post(
+          `${kBaseUrl}/users/${userId}/reserve/${toy_id}`
+        );
+    
+        if (response.status === 200) {
+        }
+      } catch (error) {
+        console.error('Error reserving toy:', error);
+      }
+      return false;
+    };
+      
+      
 
-  const handleSignUpPageClick = () => {
-    history.push('/sign-up');
-  };
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h2 style={{ marginBottom: '20px' }}>Toy Page</h2>
+          <div style={{ marginTop: '50px', width: '100%', maxWidth: '1200px', marginLeft: '40px' }}>
+            <ToyList toys={toys} onReserveButtonClick={handleReserveButtonClick} auth={auth} setToys={setToys} />
+          </div>
+        </div>
+      );
+    };
+    
 
-  const handleAdminPortalClick = () => {
-    history.push('/admin-portal');
-  };
-
-  const handleLogoutClick = async () => {
-    try {
-      await auth.signOut();
-      history.push('/');
-    } catch (error) {
-      console.error('Failed to logout:', error);
-    }
-  };
-
-  return (
-    <div className="buttonholder">
-      {currentUser && (
-        <>
-          {isAdmin() && ( // Check if the user is an admin
-            <button className="btn btn-primary mr-2" onClick={handleAdminPortalClick}>
-              Admin Portal
-            </button>
-          )}
-          <button className="btn btn-secondary" onClick={handleLogoutClick}>
-            Logout
-          </button>
-        </>
-      )}
-      {!currentUser && (
-        <>
-          <button className="btn btn-secondary" onClick={handleLoginPageClick}>
-            Login
-          </button>
-          <button className="btn btn-secondary" onClick={handleSignUpPageClick}>
-            Sign Up
-          </button>
-        </>
-      )}
-    </div>
-  );
-};
-
-export default withRouter(ButtonHolder);
+export default ToyInventory;
