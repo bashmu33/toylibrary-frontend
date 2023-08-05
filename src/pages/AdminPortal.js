@@ -78,9 +78,9 @@ console.log("Rendering with isAdminUser:", isAdminUser);
 
     return (
         <div className="admin-portal">
-            <h2>Administrative Portal</h2>
+            <h2 className="mt-4">Administrative Portal</h2>
             {isAdminUser ? (
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className="mt-4">
                 <Form.Group controlId="toy_name">
                     <Form.Label>Toy Name:</Form.Label>
                     <Form.Control type="text" name="toy_name" value={formData.toy_name} onChange={handleChange} required />
@@ -125,13 +125,13 @@ console.log("Rendering with isAdminUser:", isAdminUser);
 
                 {/* Image Display */}
                 {formData.toy_image && (
-                    <div>
+                    <div className="mt-3">
                         <h5>Preview</h5>
-                        <img src={formData.toy_image} alt="Toy" style={{ maxWidth: '100%', height: 'auto' }} />
+                        <img src={formData.toy_image} alt="Toy" className="img-fluid" />
                     </div>
                 )}
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="mt-3">
                     Add Toy
                 </Button>
             </Form>
