@@ -13,13 +13,11 @@ const ToyItem = ({ toy, setToys }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Check if the current user is admin
     const checkAdminStatus = async () => {
       const adminStatus = await auth.isAdmin();
       setIsAdminUser(adminStatus);
     };
 
-    // Check if a user is logged in
     const checkLoggedInStatus = () => {
       const user = auth.currentUser;
       setIsLoggedIn(user !== null);
@@ -39,7 +37,7 @@ const ToyItem = ({ toy, setToys }) => {
       );
 
       if (response.status === 200) {
-        // Update the reservation status in the UI
+        //change reservation status
         setToys((prevToys) => {
           const updatedToys = prevToys.map((toy) =>
             toy.toy_id === toy_id
@@ -56,7 +54,23 @@ const ToyItem = ({ toy, setToys }) => {
 
   const handleCheckOutButtonClick = async (toy_id) => {
     try {
-      // Handle check out logic here
+      if (toy_status === 'reserved') {
+        const response = await axios.post(
+          `${kBaseUrl}/toys/${toy_id}/checkout`
+        );
+
+        if (response.status === 200) {
+          // Update the toy status
+          setToys((prevToys) => {
+            const updatedToys = prevToys.map((toy) =>
+              toy.toy_id === toy_id
+                ? { ...toy, toy_status: 'checked_out' }
+                : toy
+            );
+            return updatedToys;
+          });
+        }
+      }
     } catch (error) {
       console.error('Error checking out toy:', error);
     }
@@ -76,6 +90,43 @@ const ToyItem = ({ toy, setToys }) => {
     }
   };
 
+  //button logic to render buttons based on admin vs logged in vs everyone else
+  const renderButtons = () => {
+    if (!isLoggedIn) {
+      return null; // No buttons
+    } else if (isAdminUser) {
+      return (
+        <div>
+          <Button
+            variant="danger"
+            onClick={() => handleDeleteButtonClick(toy_id)}
+          >
+            Delete Toy
+          </Button>
+          <Button
+            variant={toy_status === 'available' ? 'primary' : 'secondary'}
+            onClick={() => handleCheckOutButtonClick(toy_id)}
+            disabled={toy_status === 'available'}
+          >
+            {toy_status === 'available' ? 'Check Out' : 'Check Out Reserved Toy'}
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <Button
+          variant={toy_status === 'available' ? 'primary' : 'secondary'}
+          disabled={toy_status === 'reserved'}
+          onClick={() => handleReserveButtonClick(toy_id)}
+        >
+          {toy_status === 'available' ? 'Reserve Toy' : 'Reserved'}
+        </Button>
+      );
+    }
+  };
+
+  
+  
   return (
     <Card style={{ position: 'relative', marginBottom: '20px', width: '45%', minWidth: '300px' }}>
       <div style={{ display: 'flex', height: '100%' }}>
@@ -92,35 +143,7 @@ const ToyItem = ({ toy, setToys }) => {
             <Card.Text>Recommended Age: {age_category}</Card.Text>
             <Card.Text>{description}</Card.Text>
           </Card.Body>
-          {isAdminUser && (
-            <>
-              <Button
-                style={{ position: 'absolute', bottom: '10px', left: '10px' }}
-                variant="danger"
-                onClick={() => handleDeleteButtonClick(toy_id)}
-              >
-                Delete Toy
-              </Button>
-              <Button
-                style={{ position: 'absolute', bottom: '10px', right: '10px' }}
-                variant={toy_status === 'available' ? 'primary' : 'secondary'}
-                disabled={toy_status === 'reserved'}
-                onClick={() => handleCheckOutButtonClick(toy_id)}
-              >
-                Check Out
-              </Button>
-            </>
-          )}
-          {!isAdminUser && isLoggedIn && (
-            <Button
-              style={{ position: 'absolute', bottom: '10px', right: '10px' }}
-              variant={toy_status === 'available' ? 'primary' : 'secondary'}
-              disabled={toy_status === 'reserved'}
-              onClick={() => handleReserveButtonClick(toy_id)}
-            >
-              {toy_status === 'available' ? 'Reserve Toy' : 'Reserved'}
-            </Button>
-          )}
+          {renderButtons()}
         </div>
       </div>
     </Card>
