@@ -33,9 +33,6 @@ const App = () => {
             <Route path="/admin-portal" component={AdminPortal} />
             <Route exact path="/">
               <MainSection handleToyInventoryClick={handleViewToyInventory} />
-              <Button variant="primary">
-                <Link to="/admin-portal">Test Admin Portal</Link>
-              </Button>
             </Route>
           </Switch>
         </div>
