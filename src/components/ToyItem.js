@@ -3,14 +3,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const kBaseUrl = 'https://toy-library.onrender.com';
 
-const ToyItem = ({ toy, setToys }) => {
+const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
   const { toy_id, toy_image, toy_name, description, age_category, toy_status } = toy;
   const auth = useAuth();
   const [isAdminUser, setIsAdminUser] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const checkAdminStatus = async () => {
@@ -52,29 +54,10 @@ const ToyItem = ({ toy, setToys }) => {
     }
   };
 
-  const handleCheckOutButtonClick = async (toy_id) => {
-    try {
-      if (toy_status === 'reserved') {
-        const response = await axios.post(
-          `${kBaseUrl}/toys/${toy_id}/checkout`
-        );
-
-        if (response.status === 200) {
-          // Update the toy status
-          setToys((prevToys) => {
-            const updatedToys = prevToys.map((toy) =>
-              toy.toy_id === toy_id
-                ? { ...toy, toy_status: 'checked_out' }
-                : toy
-            );
-            return updatedToys;
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error checking out toy:', error);
-    }
+  const handleCheckOutButtonClick = () => {
+    onCheckOutButtonClick(toy.toy_id);
   };
+  
 
   const handleDeleteButtonClick = async (toy_id) => {
     try {
@@ -105,8 +88,8 @@ const ToyItem = ({ toy, setToys }) => {
           </Button>
           <Button
             variant={toy_status === 'available' ? 'primary' : 'secondary'}
-            onClick={() => handleCheckOutButtonClick(toy_id)}
-            disabled={toy_status === 'available'}
+            onClick={handleCheckOutButtonClick}
+            disabled={toy_status === 'available' && !isAdminUser}
           >
             {toy_status === 'available' ? 'Check Out' : 'Check Out Reserved Toy'}
           </Button>

@@ -2,7 +2,7 @@ import React from 'react';
 import ToyItem from './ToyItem';
 import PropTypes from 'prop-types';
 
-const ToyList = ({ toys, onReserveButtonClick, auth, setToys }) => {
+const ToyList = ({ toys, onReserveButtonClick, auth, setToys, onCheckOutButtonClick }) => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '1200px', margin: '0 auto' }}>
             {toys.map((toy) => (
@@ -12,6 +12,7 @@ const ToyList = ({ toys, onReserveButtonClick, auth, setToys }) => {
                     onReserveButtonClick={onReserveButtonClick}
                     auth={auth}
                     setToys={setToys}
+                    onCheckOutButtonClick={onCheckOutButtonClick}
                 />
             ))}
         </div>
