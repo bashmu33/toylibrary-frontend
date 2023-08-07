@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Dropdown, Button } from 'react-bootstrap';
-import ToyItem from '../components/ToyItem';
+import { Container, Row, Col, Dropdown, Button, Alert } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
 const Checkout = () => {
@@ -10,26 +9,24 @@ const { toy_id } = location.state || {};
 const [toy, setToy] = useState(null);
 const [users, setUsers] = useState([]);
 const [selectedUser, setSelectedUser] = useState(null);
+const [error, setError] = useState(null);
 
 useEffect(() => {
-    // Fetch toy details
     const fetchToy = async () => {
-        try {
+    try {
         const response = await axios.get(`https://toy-library.onrender.com/toys/${toy_id}`);
         setToy(response.data);
-        } catch (error) {
-        console.error('Error fetching toy:', error);
-        console.log('Error response:', error.response.data);
-        }
+    } catch (error) {
+        setError('Error fetching toy');
+    }
     };
 
-    // Fetch list of users
     const fetchUsers = async () => {
     try {
         const response = await axios.get('https://toy-library.onrender.com/users');
         setUsers(response.data);
     } catch (error) {
-        console.error('Error fetching users:', error);
+        setError('Error fetching users');
     }
     };
 
@@ -43,39 +40,79 @@ const handleUserSelect = (user) => {
 
 const handleCheckoutButtonClick = async () => {
     if (!selectedUser) {
-    alert('Please select a user.');
+    setError('Please select a user.');
     return;
     }
 
-    // Perform your checkout logic here
-    // ...
+    try {
+    const response = await axios.post(
+        `https://toy-library.onrender.com/users/${selectedUser.user_id}/checkout/${toy_id}`
+    );
 
-    alert('Toy checked out successfully.');
+    if (response.status === 200) {
+        const checkoutUser = `${selectedUser.first_name} ${selectedUser.last_name}`;
+
+        // Update toy status to 'checked_out' in the local state
+        setToy((prevToy) => ({
+        ...prevToy,
+        toy_status: 'checked_out',
+        }));
+
+        setError(null); // Clear any previous errors
+        alert(`Toy checked out successfully by ${checkoutUser}.`);
+    }
+    } catch (error) {
+    // Check if error response contains mismatched user error message
+    if (error.response?.data?.message) {
+        setError(error.response.data.message);
+    } else {
+        setError('Error checking out toy');
+    }
+    }
 };
 
+// Filter out admin user from the users list
+const filteredUsers = users.filter(user => !user.isAdmin);
+
 return (
-    <div className="checkout-page">
+    <Container className="my-5 text-center">
+    <h2 className="mb-3">Check Out Page</h2>
     {toy && (
-        <div>
-            <ToyItem toy={toy} toyId={toy_id} setToys={() => {}} />
-        <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="user-dropdown">
-            {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-            {users.map((user) => (
-                <Dropdown.Item key={user.user_id} onClick={() => handleUserSelect(user)}>
-                {`${user.first_name} ${user.last_name}`}
-                </Dropdown.Item>
-            ))}
-            </Dropdown.Menu>
-        </Dropdown>
-        <Button variant="primary" onClick={handleCheckoutButtonClick}>
-            Check Out
-        </Button>
-        </div>
+        <Row className="justify-content-center">
+        <Col md={8}>
+            {/* Toy Information */}
+            <div className="border p-3 mb-3">
+            <h4>{toy.toy_name}</h4>
+            <p>{toy.description}</p>
+            <p>Recommended Age: {toy.age_category}</p>
+            </div>
+            {/* User Selection and Checkout */}
+            <div className="border p-3">
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Dropdown className="mb-3">
+                <Dropdown.Toggle variant="secondary" id="user-dropdown">
+                {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                {filteredUsers.map((user) => (
+                    <Dropdown.Item
+                    key={user.user_id}
+                    onClick={() => handleUserSelect(user)}
+                    className={selectedUser && selectedUser.user_id === user.user_id ? 'reserved-user' : ''}
+                    >
+                    {`${user.first_name} ${user.last_name}`}
+                    </Dropdown.Item>
+                ))}
+                </Dropdown.Menu>
+            </Dropdown>
+            <Button variant="primary" onClick={handleCheckoutButtonClick}>
+                Check Out
+            </Button>
+            </div>
+        </Col>
+        </Row>
     )}
-    </div>
+    </Container>
 );
 };
 

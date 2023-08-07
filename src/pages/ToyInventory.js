@@ -49,6 +49,29 @@ const kBaseUrl = "https://toy-library.onrender.com";
         state: { toy_id: toy_id }
       });
     };
+
+    const handleReturnButtonClick = async (toy_id) => {
+      // Handle returning a toy
+      try {
+        const response = await axios.post(
+          `${kBaseUrl}/transactions/${toy_id}/return_toy`
+        );
+  
+        if (response.status === 200) {
+          // Update toy status to 'available'
+          setToys((prevToys) => {
+            const updatedToys = prevToys.map((toy) =>
+              toy.toy_id === toy_id
+                ? { ...toy, toy_status: 'available' }
+                : toy
+            );
+            return updatedToys;
+          });
+        }
+      } catch (error) {
+        console.error('Error returning toy:', error);
+      }
+    };
       
       
 
@@ -56,7 +79,7 @@ const kBaseUrl = "https://toy-library.onrender.com";
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2 style={{ marginBottom: '20px' }}>Toy Page</h2>
           <div style={{ marginTop: '50px', width: '100%', maxWidth: '1200px', marginLeft: '40px' }}>
-            <ToyList toys={toys} onReserveButtonClick={handleReserveButtonClick} auth={auth} setToys={setToys} onCheckOutButtonClick={handleCheckOutButtonClick} />
+            <ToyList toys={toys} onReserveButtonClick={handleReserveButtonClick} auth={auth} setToys={setToys} onCheckOutButtonClick={handleCheckOutButtonClick} onReturnButtonClick={handleReturnButtonClick}  />
           </div>
         </div>
       );

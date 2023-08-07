@@ -73,38 +73,91 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
     }
   };
 
+  const handleReturnButtonClick = async (toy_id) => {
+    try {
+      const response = await axios.post(
+        `${kBaseUrl}/transactions/${toy_id}/return_toy`
+      );
+  
+      if (response.status === 200) {
+        // Change toy status to 'available'
+        setToys((prevToys) => {
+          const updatedToys = prevToys.map((toy) =>
+            toy.toy_id === toy_id
+              ? { ...toy, toy_status: 'available' }
+              : toy
+          );
+          return updatedToys;
+        });
+      }
+    } catch (error) {
+      console.error('Error returning toy:', error);
+    }
+  };
+  
+
   //button logic to render buttons based on admin vs logged in vs everyone else
   const renderButtons = () => {
     if (!isLoggedIn) {
-      return null; // No buttons
+      return null; // No buttons for non-logged-in users
     } else if (isAdminUser) {
-      return (
-        <div>
+      if (toy_status === 'available') {
+        return (
+          <div>
+            <Button variant="danger" onClick={() => handleDeleteButtonClick(toy_id)}>
+              Delete Toy
+            </Button>
+            <Button variant="primary" onClick={handleCheckOutButtonClick}>
+              Check Out Toy
+            </Button>
+          </div>
+        );
+      } else if (toy_status === 'reserved') {
+        return (
+          <div>
+            <Button variant="danger" onClick={() => handleDeleteButtonClick(toy_id)}>
+              Delete Toy
+            </Button>
+            <Button variant="primary" onClick={handleCheckOutButtonClick}>
+              Check Out Reserved Toy
+            </Button>
+          </div>
+        );
+      } else if (toy_status === 'checked_out') {
+        return (
+          <div>
+            <Button variant="danger" onClick={() => handleDeleteButtonClick(toy_id)}>
+              Delete Toy
+            </Button>
+            <Button variant="success" onClick={() => handleReturnButtonClick(toy_id)}>
+              Return Checked Out Toy
+            </Button>
+          </div>
+        );
+      }
+    } else { // Non-admin user
+      if (toy_status === 'available') {
+        return (
           <Button
-            variant="danger"
-            onClick={() => handleDeleteButtonClick(toy_id)}
+            variant="primary"
+            onClick={() => handleReserveButtonClick(toy_id)}
           >
-            Delete Toy
+            Reserve Toy
           </Button>
-          <Button
-            variant={toy_status === 'available' ? 'primary' : 'secondary'}
-            onClick={handleCheckOutButtonClick}
-            disabled={toy_status === 'available' && !isAdminUser}
-          >
-            {toy_status === 'available' ? 'Check Out' : 'Check Out Reserved Toy'}
+        );
+      } else if (toy_status === 'reserved') {
+        return (
+          <Button variant="secondary" disabled>
+            Reserved
           </Button>
-        </div>
-      );
-    } else {
-      return (
-        <Button
-          variant={toy_status === 'available' ? 'primary' : 'secondary'}
-          disabled={toy_status === 'reserved'}
-          onClick={() => handleReserveButtonClick(toy_id)}
-        >
-          {toy_status === 'available' ? 'Reserve Toy' : 'Reserved'}
-        </Button>
-      );
+        );
+      } else if (toy_status === 'checked_out') {
+        return (
+          <Button variant="secondary" disabled>
+            Unavailable
+          </Button>
+        );
+      }
     }
   };
 
@@ -143,6 +196,7 @@ ToyItem.propTypes = {
     toy_image: PropTypes.string,
   }).isRequired,
   setToys: PropTypes.func.isRequired,
+  onReturnButtonClick: PropTypes.func.isRequired,
 };
 
 export default ToyItem;
