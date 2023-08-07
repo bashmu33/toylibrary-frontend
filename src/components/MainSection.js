@@ -27,7 +27,6 @@ const MainSection = ({ history }) => {
         </div>
       </div>
       <div className="rightsection">
-        <SearchBar />
         <ImageHolder />
       </div>
     </div>
