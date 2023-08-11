@@ -1,79 +1,97 @@
-// // ProfilePage.js
+import React, { useEffect, useState } from 'react';
+import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
+import { Redirect } from 'react-router-dom';
 
-// import React, { useRef, useState } from 'react';
-// import { Form, Button, Card, Alert } from 'react-bootstrap';
-// import { useAuth } from '../contexts/AuthContext';
-// import { useHistory } from 'react-router-dom';
+const kBaseUrl = 'https://toy-library.onrender.com';
 
-// export default function ProfilePage() {
-//   const firstNameRef = useRef();
-//   const lastNameRef = useRef();
-//   const dateOfBirthRef = useRef();
-//   // Add more refs for other form inputs (e.g., phone number, address, etc.)
+const ProfilePage = () => {
+  const auth = useAuth();
+  const [userProfile, setUserProfile] = useState(null);
+  const [reservations, setReservations] = useState([]);
+  const [checkouts, setCheckouts] = useState([]);
+  const [error, setError] = useState(null);
 
-//   const { currentUser } = useAuth();
-//   const [error, setError] = useState('');
-//   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(`${kBaseUrl}/users/profile/${auth.currentUser.uid}`);
+        setUserProfile(response.data);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        setError('Error fetching user profile');
+      }
+    };
 
-//   const history = useHistory();
+    const fetchUserTransactions = async (userId) => {
+      try {
+        const reservationsResponse = await axios.get(`${kBaseUrl}/transactions/user/${userId}/reservations`);
+        const checkoutsResponse = await axios.get(`${kBaseUrl}/transactions/user/${userId}/checkouts`);
+  
+        setReservations(reservationsResponse.data);
+        setCheckouts(checkoutsResponse.data);
+      } catch (error) {
+        setError('Error fetching user transactions');
+      }
+    };
+  
+    if (auth.currentUser) {
+      fetchUserProfile();
+  
+      // Fetch user_id associated with the uid
+      axios.get(`${kBaseUrl}/users/uid/${auth.currentUser.uid}`)
+        .then(response => {
+          const user_id = response.data.user_id;
+          fetchUserTransactions(user_id);
+        })
+        .catch(error => {
+          console.error('Error fetching user_id:', error);
+          setError('Error fetching user_id');
+        });
+    }
+  }, [auth.currentUser]);
 
-//   async function handleSubmit(e) {
-//     e.preventDefault();
 
-//     // Collect user input values from the form fields
-//     const userData = {
-//       username: currentUser.email, // You can use the user's email from currentUser
-//       first_name: firstNameRef.current.value,
-//       last_name: lastNameRef.current.value,
-//       date_of_birth: dateOfBirthRef.current.value,
-//       // Add other user attributes as needed (e.g., phone_number, address, etc.)
-//     };
+  if (!auth.currentUser) {
+    return <Redirect to="/login" />;
+  }
 
-//     try {
-//       setError('');
-//       setLoading(true);
+  return (
+    <div>
+      <h2>User Profile</h2>
+      {userProfile && (
+        <Card style={{ width: '400px' }}>
+          <Card.Body>
+            <Card.Title>{userProfile.first_name} {userProfile.last_name}</Card.Title>
+            <ListGroup className="list-group-flush">
+              <ListGroupItem><strong>User ID:</strong> {userProfile.user_id}</ListGroupItem>
+              <ListGroupItem><strong>Date of Birth:</strong> {userProfile.date_of_birth}</ListGroupItem>
+              <ListGroupItem><strong>Email:</strong> {userProfile.email}</ListGroupItem>
+              <ListGroupItem><strong>Phone Number:</strong> {userProfile.phone_number}</ListGroupItem>
+            </ListGroup>
+          </Card.Body>
+        </Card>
+      )}
 
-//       // Send the user information to the backend using an HTTP POST request
-//       // (e.g., using Axios or Fetch)
-//       // Your API endpoint should handle saving this user information to the database
-//       // For this example, let's assume you have an endpoint '/users/profile' on your backend
-//       await axios.post('/users/profile', userData);
+      {/* Display Checkouts and Reservations */}
+      <h3>Reservations</h3>
+      <ul>
+        {reservations.map((reservation) => (
+          <li key={reservation.transaction_id}>{reservation.toy_name} - {reservation.reserve_date}</li>
+        ))}
+      </ul>
 
-//       // Redirect the user to another page (e.g., Home page) after successful sign-up and profile completion
-//       history.push('/');
-//     } catch {
-//       setError('Failed to save profile information');
-//     }
+      <h3>Checkouts</h3>
+      <ul>
+        {checkouts.map((checkout) => (
+          <li key={checkout.transaction_id}>{checkout.toy_name} - {checkout.checkout_date}</li>
+        ))}
+      </ul>
 
-//     setLoading(false);
-//   }
+      {error && <p className="error-message">{error}</p>}
+    </div>
+  );
+};
 
-//   return (
-//     <>
-//       <Card>
-//         <Card.Body>
-//           <h2 className="text-center mb-4">Profile Setup</h2>
-//           {error && <Alert variant="danger">{error}</Alert>}
-//           <Form onSubmit={handleSubmit}>
-//             <Form.Group id="firstName">
-//               <Form.Label>First Name</Form.Label>
-//               <Form.Control type="text" ref={firstNameRef} required />
-//             </Form.Group>
-//             <Form.Group id="lastName">
-//               <Form.Label>Last Name</Form.Label>
-//               <Form.Control type="text" ref={lastNameRef} required />
-//             </Form.Group>
-//             <Form.Group id="dateOfBirth">
-//               <Form.Label>Date of Birth</Form.Label>
-//               <Form.Control type="date" ref={dateOfBirthRef} required />
-//             </Form.Group>
-//             {/* Add more form fields for other user attributes (e.g., phone number, address, etc.) */}
-//             <Button disabled={loading} className="w-100" type="submit">
-//               Save Profile
-//             </Button>
-//           </Form>
-//         </Card.Body>
-//       </Card>
-//     </>
-//   );
-// }
+export default ProfilePage;

@@ -39,6 +39,10 @@ const ButtonHolder = ({ history }) => {
     }
   };
 
+  const handleProfilePageClick = () => {
+    history.push('/profile'); 
+  };
+
   return (
     <div className="buttonholder">
       {currentUser && (
@@ -46,6 +50,11 @@ const ButtonHolder = ({ history }) => {
           {isAdminUser && (
             <button className="btn btn-primary mr-2" onClick={handleAdminPortalClick}>
               Admin Portal
+            </button>
+          )}
+          {!isAdminUser && (
+            <button className="btn btn-primary mr-2" onClick={handleProfilePageClick}>
+              Profile
             </button>
           )}
           <button className="btn btn-secondary" onClick={handleLogoutClick}>

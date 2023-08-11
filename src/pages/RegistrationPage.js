@@ -39,6 +39,15 @@ async function handleSubmit(e) {
         return;
     }
 
+    const phoneNumber = phoneNumberRef.current.value;
+        const formattedPhoneNumber = `+1${phoneNumber}`;
+
+        if (phoneNumber.length !== 10 || isNaN(phoneNumber)) {
+            setError('Please enter a valid 10-digit phone number.');
+            setLoading(false);
+            return;
+        }
+
     console.log('currentUser:', currentUser);
     console.log('currentUser.uid:', currentUser.uid);
 
@@ -46,7 +55,7 @@ async function handleSubmit(e) {
         first_name: firstNameRef.current.value,
         last_name: lastNameRef.current.value,
         date_of_birth: dateOfBirthRef.current.value,
-        phone_number: phoneNumberRef.current.value,
+        phone_number: formattedPhoneNumber,
         email: currentUser.email,
         firebase_uid: currentUser.uid, 
     };
@@ -81,7 +90,15 @@ return (
         </Form.Group>
         <Form.Group controlId="phone-number">
             <Form.Label>Phone Number</Form.Label>
-            <Form.Control type="tel" ref={phoneNumberRef} required />
+            <Form.Control
+                type="tel"
+                ref={phoneNumberRef}
+                required
+                minLength="10"
+                maxLength="10"
+                pattern="[0-9]{10}"
+                placeholder="Input valid 10-digit phone number"
+            />
         </Form.Group>
         <Button disabled={loading} className="w-100" type="submit">
             Register

@@ -7,6 +7,7 @@ import AdminPortal from './pages/AdminPortal';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import CheckOut from './pages/CheckOut';
+import ProfilePage from './pages/ProfilePage';
 import ManageUsers from './pages/ManageUsers';
 import RegistrationPage from './pages/RegistrationPage'
 import { useHistory } from 'react-router-dom'; // useHistory hook
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/admin-portal" component={AdminPortal} />
             <Route path="/checkout" component={CheckOut} />
             <Route path="/manage-users" component={ManageUsers} />
+            <Route path="/profile" component={ProfilePage} />
             <Route exact path="/">
               <MainSection handleToyInventoryClick={handleViewToyInventory} />
             </Route>
