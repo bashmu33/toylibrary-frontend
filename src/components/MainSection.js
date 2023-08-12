@@ -12,7 +12,7 @@ const MainSection = ({ history }) => {
   return (
     <div className="mainsection">
       <div className="leftsection">
-        <h2>Subheading</h2>
+        <h2>Joy of Toys</h2>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse deserunt officia reprehenderit quas impedit
           aspernatur facilis minus. Adipisci minima rem, ducimus veniam, id fugiat nihil asperiores sapiente voluptates,

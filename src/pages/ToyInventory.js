@@ -77,7 +77,7 @@ const kBaseUrl = "https://toy-library.onrender.com";
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h2 style={{ marginBottom: '20px' }}>Toy Page</h2>
+          <h2 style={{ marginBottom: '20px' }}>Toy Inventory</h2>
           <div style={{ marginTop: '50px', width: '100%', maxWidth: '1200px', marginLeft: '40px' }}>
             <ToyList toys={toys} onReserveButtonClick={handleReserveButtonClick} auth={auth} setToys={setToys} onCheckOutButtonClick={handleCheckOutButtonClick} onReturnButtonClick={handleReturnButtonClick}  />
           </div>

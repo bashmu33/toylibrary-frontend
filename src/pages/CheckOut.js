@@ -11,6 +11,10 @@ const [users, setUsers] = useState([]);
 const [selectedUser, setSelectedUser] = useState(null);
 const [error, setError] = useState(null);
 
+const YOUR_TWILIO_ACCOUNT_SID = process.env.REACT_APP_TWILIO_ACCOUNT_SID;
+const YOUR_TWILIO_AUTH_TOKEN = process.env.REACT_APP_TWILIO_AUTH_TOKEN;
+const YOUR_TWILIO_MESSAGING_SERVICE = process.env.REACT_APP_TWILIO_MESSAGING_SERVICE;
+
 useEffect(() => {
     const fetchToy = async () => {
     try {
@@ -40,36 +44,54 @@ const handleUserSelect = (user) => {
 
 const handleCheckoutButtonClick = async () => {
     if (!selectedUser) {
-    setError('Please select a user.');
-    return;
+        setError('Please select a user.');
+        return;
     }
 
     try {
-    const response = await axios.post(
-        `https://toy-library.onrender.com/users/${selectedUser.user_id}/checkout/${toy_id}`
-    );
+        const response = await axios.post(
+            `https://toy-library.onrender.com/users/${selectedUser.user_id}/checkout/${toy_id}`
+        );
 
-    if (response.status === 200) {
-        const checkoutUser = `${selectedUser.first_name} ${selectedUser.last_name}`;
+        if (response.status === 200) {
+            const checkoutUser = `${selectedUser.first_name} ${selectedUser.last_name}`;
 
-        // Update toy status to 'checked_out' in the local state
-        setToy((prevToy) => ({
-        ...prevToy,
-        toy_status: 'checked_out',
-        }));
+            // Update toy status to 'checked_out' in the local state
+            setToy((prevToy) => ({
+                ...prevToy,
+                toy_status: 'checked_out',
+            }));
 
-        setError(null); // Clear any previous errors
-        alert(`Toy checked out successfully by ${checkoutUser}.`);
-    }
+            setError(null); // Clear any previous errors
+            alert(`Toy checked out successfully by ${checkoutUser}.`);
+
+            // Calculate the due date 26 days from now
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 26);
+
+            // Send SMS notification using Twilio
+            await axios.post(
+                `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
+                new URLSearchParams({
+                    MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
+                    To: selectedUser.phone_number, // Assuming the phone number is available in the selectedUser object
+                    Body: `Hi ${checkoutUser}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
+                    // ScheduleType: 'fixed',
+                    // SendAt: dueDate.toISOString(),
+                }),
+                {
+                    auth: {
+                        username: YOUR_TWILIO_ACCOUNT_SID,
+                        password: YOUR_TWILIO_AUTH_TOKEN,
+                    },
+                }
+            );
+        }
     } catch (error) {
-    // Check if error response contains mismatched user error message
-    if (error.response?.data?.message) {
-        setError(error.response.data.message);
-    } else {
-        setError('Error checking out toy');
-    }
+        // Handle errors
     }
 };
+
 
 // Filter out admin user from the users list
 const filteredUsers = users.filter(user => !user.isAdmin);

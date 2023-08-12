@@ -29,6 +29,7 @@ body {
   width: 90%;
   height: 10%;
   margin-left: 5%;
+  margin-bottom: 5%;
 }
 
 .topsection h1 {
@@ -101,11 +102,6 @@ body {
 }
 
 
-/* .rightsection {
-  width: 50%;
-  height: 100%;
-  float: right;
-} */
 
 .rightsection div {
   margin-top: 5%;
@@ -208,45 +204,31 @@ body {
   height: 30px;
 }
 
-.login-card {
-  width: 300px;
-  height: 300px;
-  border-radius: 10px;
+.admin-portal h4{
+  margin: 0 auto;
+  width: 50%; 
 }
 
-.login-box {
+.buttonholder-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent background color */
-  z-index: 9999; /* Set a higher z-index to ensure the login box is on top */
+}
+
+.right-button {
+  margin-left: auto;
 }
 
 
-.login-card {
-  width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
 
-.close-x {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
 
-.close-icon {
-  font-size: 20px;
-  line-height: 1;
-  color: #000;
-}
+
+
+
+
+

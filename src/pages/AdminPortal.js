@@ -1,9 +1,11 @@
 // AdminPortal.js
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import '../App.css';
+
 
 const ageCategories = [
     'Age 3m+',
@@ -20,6 +22,12 @@ const ageCategories = [
 ];
 
 const AdminPortal = () => {
+    const [showForm, setShowForm] = useState(false);
+
+    const handleAddToyClick = () => {
+        setShowForm(!showForm);
+    };
+    
     const [formData, setFormData] = useState({
         toy_name: '',
         description: '',
@@ -74,74 +82,90 @@ const AdminPortal = () => {
         checkAdminStatus();
     }, []);
 
-    console.log("Rendering with isAdminUser:", isAdminUser);
-
     return (
-        <div className="admin-portal">
-            <h2 className="mt-4">Administrative Portal</h2>
+        <div className="d-flex justify-content-center " style={{ minHeight: '100vh' }}>
+            <h3></h3>
+        <div>
+    
             {isAdminUser ? (
                 <div>
-                    <Form onSubmit={handleSubmit} className="mt-4">
-                        <Form.Group controlId="toy_name">
-                            <Form.Label>Toy Name:</Form.Label>
-                            <Form.Control type="text" name="toy_name" value={formData.toy_name} onChange={handleChange} required />
-                        </Form.Group>
-                        <Form.Group controlId="description">
-                            <Form.Label>Description:</Form.Label>
-                            <Form.Control as="textarea" name="description" value={formData.description} onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Group controlId="age_category">
-                            <Form.Label>Age Category:</Form.Label>
-                            <Form.Control
-                                as="select"
-                                name="age_category"
-                                value={formData.age_category}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Recommended Age</option>
-                                {ageCategories.map((category) => (
-                                    <option key={category} value={category}>
-                                        {category}
-                                    </option>
-                                ))}
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="toy_status">
-                            <Form.Label>Toy Status:</Form.Label>
-                            <Form.Control type="text" name="toy_status" value={formData.toy_status} onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Group controlId="toy_image">
-                            <Form.Label>Toy Image URL:</Form.Label>
-                            <Form.Control
-                                type="url"
-                                name="toy_image"
-                                value={formData.toy_image}
-                                onChange={handleChange}
-                            />
-                            <Form.Text className="text-muted">
-                                Enter the URL of the toy image in your AWS S3 bucket.
-                            </Form.Text>
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className="mt-3">
+                    <div className="mt-5 d-flex justify-content-center mt-4">
+                        {/* Add Toy button */}
+                        <Button
+                            variant="primary"
+                            className="btn-lg m-3"
+                            onClick={handleAddToyClick}
+                        >
                             Add Toy
                         </Button>
-                    </Form>
-
-                    {/* Use Link component for routing */}
-                    <Link to="/toy-inventory" className="btn btn-success btn-lg mt-4">
-                        Checkout Toy to User
-                    </Link>
-
-                    <Link to="/manage-users" className="btn btn-info btn-lg mt-4">
-                        Manage Users
-                    </Link>
+    
+                        {/* Checkout Toy to User button */}
+                        <Link to="/toy-inventory" className="btn btn-success btn-lg m-3">
+                            Checkout Toy to User
+                        </Link>
+    
+                        {/* Manage Users button */}
+                        <Link to="/manage-users" className="btn btn-info btn-lg m-3">
+                            Manage Users
+                        </Link>
+                    </div>
+    
+                    {showForm && (
+                        <Form onSubmit={handleSubmit} className="mt-4">
+                            <Form.Group controlId="toy_name">
+                                <Form.Label>Toy Name:</Form.Label>
+                                <Form.Control type="text" name="toy_name" value={formData.toy_name} onChange={handleChange} required />
+                            </Form.Group>
+                            <Form.Group controlId="description">
+                                <Form.Label>Description:</Form.Label>
+                                <Form.Control as="textarea" name="description" value={formData.description} onChange={handleChange} />
+                            </Form.Group>
+                            <Form.Group controlId="age_category">
+                                <Form.Label>Age Category:</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="age_category"
+                                    value={formData.age_category}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">Recommended Age</option>
+                                    {ageCategories.map((category) => (
+                                        <option key={category} value={category}>
+                                            {category}
+                                        </option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group controlId="toy_status">
+                                <Form.Label>Toy Status:</Form.Label>
+                                <Form.Control type="text" name="toy_status" value={formData.toy_status} onChange={handleChange} />
+                            </Form.Group>
+                            <Form.Group controlId="toy_image">
+                                <Form.Label>Toy Image URL:</Form.Label>
+                                <Form.Control
+                                    type="url"
+                                    name="toy_image"
+                                    value={formData.toy_image}
+                                    onChange={handleChange}
+                                />
+                                <Form.Text className="text-muted">
+                                    Enter the URL of the toy image in your AWS S3 bucket.
+                                </Form.Text>
+                            </Form.Group>
+                            <Button variant="primary" type="submit" className="mt-3">
+                                Add Toy
+                            </Button>
+                        </Form>
+                    )}
                 </div>
+        
             ) : (
                 <p>You do not have permission to access this page.</p>
             )}
+            </div>
         </div>
     );
-};
+            };
 
-export default AdminPortal;
+    export default AdminPortal;
