@@ -69,7 +69,8 @@ const ManageUsers = () => {
 
 
     return (
-        <div className="manage-users">
+        <div className="manage-users-container">
+            <div className="manage-users">
             <h2>Manage Users</h2>
             {isAdminUser ? (
                 <Dropdown>
@@ -136,6 +137,7 @@ const ManageUsers = () => {
 
             {error && <p className="error-message">{error}</p>}
         </div>
+    </div>
     );
 };
 

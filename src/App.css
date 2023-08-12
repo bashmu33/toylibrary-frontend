@@ -74,16 +74,16 @@ body {
 }
 
 .leftsection h2 {
-  margin: 5%;
+  margin-top: 5%;
 }
 
 .leftsection p {
-  margin: 5%; 
+  margin: 2cqb; 
 }
 
 
 .buttoncontainer {
-  position: absolute;
+  position: relative;
   bottom: 5%;
   width: 100%;
   padding: 5%;
@@ -104,7 +104,7 @@ body {
 
 
 .rightsection div {
-  margin-top: 5%;
+  margin-top: 10%;
   width: 100%;
   display:grid;
   grid-template-columns: auto auto;
@@ -223,6 +223,23 @@ body {
 .right-button {
   margin-left: auto;
 }
+
+.custom-button {
+  margin: 10px;
+}
+
+.manage-users-container {
+  position: relative;
+}
+
+.manage-users {
+  margin-top: 10%;
+  position: relative;
+  left: 100%;
+  transform: translateX(50%);
+}
+
+
 
 
 

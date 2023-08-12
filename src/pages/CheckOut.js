@@ -56,63 +56,56 @@ const handleCheckoutButtonClick = async () => {
         if (response.status === 200) {
             const checkoutUser = `${selectedUser.first_name} ${selectedUser.last_name}`;
 
-            // Update toy status to 'checked_out' in the local state
             setToy((prevToy) => ({
                 ...prevToy,
                 toy_status: 'checked_out',
             }));
 
-            setError(null); // Clear any previous errors
+            setError(null); 
             alert(`Toy checked out successfully by ${checkoutUser}.`);
 
-            // Calculate the due date 26 days from now
             const dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 26);
 
             // Send SMS notification using Twilio
-            await axios.post(
-                `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
-                new URLSearchParams({
-                    MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
-                    To: selectedUser.phone_number, // Assuming the phone number is available in the selectedUser object
-                    Body: `Hi ${checkoutUser}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
-                    // ScheduleType: 'fixed',
-                    // SendAt: dueDate.toISOString(),
-                }),
-                {
-                    auth: {
-                        username: YOUR_TWILIO_ACCOUNT_SID,
-                        password: YOUR_TWILIO_AUTH_TOKEN,
-                    },
-                }
-            );
+            // await axios.post(
+            //     `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
+            //     new URLSearchParams({
+            //         MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
+            //         To: selectedUser.phone_number, // Assuming the phone number is available in the selectedUser object
+            //         Body: `Hi ${checkoutUser}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
+            //         // ScheduleType: 'fixed',
+            //         // SendAt: dueDate.toISOString(),
+            //     }),
+            //     {
+            //         auth: {
+            //             username: YOUR_TWILIO_ACCOUNT_SID,
+            //             password: YOUR_TWILIO_AUTH_TOKEN,
+            //         },
+            //     }
+            // );
         }
     } catch (error) {
-        // Handle errors
+
     }
 };
 
 
-// Filter out admin user from the users list
 const filteredUsers = users.filter(user => !user.isAdmin);
 
 return (
-    <Container className="my-5 text-center">
-    <h2 className="mb-3">Check Out Page</h2>
+    <Container className="d-flex flex-column align-items-center" style={{ minHeight: '100vh' }}>
+        <h2 style={{ margin: '40px', textAlign: 'center' }}>Toy Checkout</h2>
     {toy && (
-        <Row className="justify-content-center">
-        <Col md={8}>
-            {/* Toy Information */}
-            <div className="border p-3 mb-3">
+        <Row>
+        <Col md={12}>
+            <div className="border p-3 m-3" style={{ textAlign: 'center' }}>
             <h4>{toy.toy_name}</h4>
-            <p>{toy.description}</p>
-            <p>Recommended Age: {toy.age_category}</p>
             </div>
-            {/* User Selection and Checkout */}
-            <div className="border p-3">
+            <div className="border p-3 m-3" style={{ textAlign: 'center' }}>
             {error && <Alert variant="danger">{error}</Alert>}
             <Dropdown className="mb-3">
-                <Dropdown.Toggle variant="secondary" id="user-dropdown">
+                <Dropdown.Toggle variant="secondary m-3" id="user-dropdown">
                 {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -127,7 +120,7 @@ return (
                 ))}
                 </Dropdown.Menu>
             </Dropdown>
-            <Button variant="primary" onClick={handleCheckoutButtonClick}>
+            <Button variant="primary m-3" onClick={handleCheckoutButtonClick}>
                 Check Out
             </Button>
             </div>

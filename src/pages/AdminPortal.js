@@ -1,4 +1,4 @@
-// AdminPortal.js
+
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -83,14 +83,13 @@ const AdminPortal = () => {
     }, []);
 
     return (
-        <div className="d-flex justify-content-center " style={{ minHeight: '100vh' }}>
-            <h3></h3>
+        <div className="d-flex justify-content-center" style={{ minHeight: '100vh' }}>
+            <h3> </h3>
         <div>
     
             {isAdminUser ? (
                 <div>
-                    <div className="mt-5 d-flex justify-content-center mt-4">
-                        {/* Add Toy button */}
+                    <div className="mt-5 d-flex justify-content-center">
                         <Button
                             variant="primary"
                             className="btn-lg m-3"
@@ -99,12 +98,10 @@ const AdminPortal = () => {
                             Add Toy
                         </Button>
     
-                        {/* Checkout Toy to User button */}
                         <Link to="/toy-inventory" className="btn btn-success btn-lg m-3">
                             Checkout Toy to User
                         </Link>
     
-                        {/* Manage Users button */}
                         <Link to="/manage-users" className="btn btn-info btn-lg m-3">
                             Manage Users
                         </Link>
@@ -153,7 +150,7 @@ const AdminPortal = () => {
                                     Enter the URL of the toy image in your AWS S3 bucket.
                                 </Form.Text>
                             </Form.Group>
-                            <Button variant="primary" type="submit" className="mt-3">
+                            <Button variant="primary" type="submit" className="m-3">
                                 Add Toy
                             </Button>
                         </Form>

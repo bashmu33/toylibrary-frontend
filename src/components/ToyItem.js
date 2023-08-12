@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import '../App.css'
 
 const kBaseUrl = 'https://toy-library.onrender.com';
 
@@ -76,7 +77,7 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
   const handleReturnButtonClick = async (toy_id) => {
     try {
       const response = await axios.post(
-        `${kBaseUrl}/transactions/${toy_id}/return_toy`
+        `${kBaseUrl}/transactions/return_toy/${toy_id}`
       );
   
       if (response.status === 200) {
@@ -104,10 +105,10 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
       if (toy_status === 'available') {
         return (
           <div>
-            <Button variant="danger" onClick={() => handleDeleteButtonClick(toy_id)}>
+            <Button variant="danger" className="custom-button" onClick={() => handleDeleteButtonClick(toy_id)}>
               Delete Toy
             </Button>
-            <Button variant="primary" onClick={handleCheckOutButtonClick}>
+            <Button variant="primary" className="custom-button" onClick={handleCheckOutButtonClick}>
               Check Out Toy
             </Button>
           </div>
@@ -115,10 +116,10 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
       } else if (toy_status === 'reserved') {
         return (
           <div>
-            <Button variant="danger" onClick={() => handleDeleteButtonClick(toy_id)}>
+            <Button variant="danger" className="custom-button" onClick={() => handleDeleteButtonClick(toy_id)}>
               Delete Toy
             </Button>
-            <Button variant="primary" onClick={handleCheckOutButtonClick}>
+            <Button variant="primary" className="custom-button" onClick={handleCheckOutButtonClick}>
               Check Out Reserved Toy
             </Button>
           </div>
@@ -126,10 +127,10 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
       } else if (toy_status === 'checked_out') {
         return (
           <div>
-            <Button variant="danger" onClick={() => handleDeleteButtonClick(toy_id)}>
+            <Button variant="danger" className="custom-button" onClick={() => handleDeleteButtonClick(toy_id)}>
               Delete Toy
             </Button>
-            <Button variant="success" onClick={() => handleReturnButtonClick(toy_id)}>
+            <Button variant="success" className="custom-button" onClick={() => handleReturnButtonClick(toy_id)}>
               Return Checked Out Toy
             </Button>
           </div>
@@ -139,7 +140,7 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
       if (toy_status === 'available') {
         return (
           <Button
-            variant="primary"
+            variant="primary" className="custom-button"
             onClick={() => handleReserveButtonClick(toy_id)}
           >
             Reserve Toy
@@ -147,13 +148,13 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
         );
       } else if (toy_status === 'reserved') {
         return (
-          <Button variant="secondary" disabled>
+          <Button variant="secondary" disabled className="custom-button">
             Reserved
           </Button>
         );
       } else if (toy_status === 'checked_out') {
         return (
-          <Button variant="secondary" disabled>
+          <Button variant="secondary" disabled className="custom-button">
             Unavailable
           </Button>
         );
