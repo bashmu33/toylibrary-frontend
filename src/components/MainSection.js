@@ -14,7 +14,7 @@ const MainSection = ({ history }) => {
       <div className="leftsection">
         <h2>Joy of Toys</h2>
         <p>
-        Welcome to our cherished toy library, a heartwarming haven for our community's young adventurers. Here, we believe in the magic of sharing, where laughter resonates in the playful patter of little feet and curious minds. Our toy library is more than just a place; it's a joyful gathering space, where children's dreams take flight and friendships are woven with imagination. Discover a treasure trove of toys that spark creativity, foster learning, and kindle the spirit of togetherness. Embrace the joy of giving and receiving, as our toy library nurtures a beautiful bond that weaves our community closer, one delightful toy at a time.
+        Welcome to our cherished toy library, a heartwarming haven for our community's young adventurers. Here, we believe in the magic of sharing, where laughter resonates in the playful patter of little feet and curious minds. Our toy library is more than just a place; it's a joyful gathering space, where children's dreams take flight and friendships are woven with imagination. Discover a treasure trove of toys that spark creativity, foster learning, and kindle the spirit of togetherness.
         </p>
         <div className="buttoncontainer">
           <button className="btn btn-danger">How it works</button>

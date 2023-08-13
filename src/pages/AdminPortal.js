@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import '../App.css';
+import '../css/AdminPortal.css';
 
 
 const ageCategories = [
@@ -83,13 +83,11 @@ const AdminPortal = () => {
     }, []);
 
     return (
-        <div className="d-flex justify-content-center" style={{ minHeight: '100vh' }}>
-            <h3> </h3>
-        <div>
+        <div className="button-container-admin">
     
             {isAdminUser ? (
-                <div>
-                    <div className="mt-5 d-flex justify-content-center">
+                <div className="button-container-admin">
+                    <div className="button-section">
                         <Button
                             variant="primary"
                             className="btn-lg m-3"
@@ -97,15 +95,18 @@ const AdminPortal = () => {
                         >
                             Add Toy
                         </Button>
-    
+                    </div>
+                    <div className="button-section">
                         <Link to="/toy-inventory" className="btn btn-success btn-lg m-3">
                             Checkout Toy to User
                         </Link>
-    
+                    </div>
+                    <div className="button-section">
                         <Link to="/manage-users" className="btn btn-info btn-lg m-3">
                             Manage Users
                         </Link>
                     </div>
+                
     
                     {showForm && (
                         <Form onSubmit={handleSubmit} className="mt-4">
@@ -161,7 +162,6 @@ const AdminPortal = () => {
                 <p>You do not have permission to access this page.</p>
             )}
             </div>
-        </div>
     );
             };
 

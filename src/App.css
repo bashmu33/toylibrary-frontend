@@ -24,20 +24,23 @@ body {
   height: 100vh;
 }
 
-/* Align buttons and style logo/tagline */
+
 .topsection {
   width: 90%;
   height: 10%;
   margin-left: 5%;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
+  /* background-color: aqua; */
 }
 
 .topsection h1 {
+  margin-left: 2%;
   font-family: 'Montserrat Alternates', sans-serif;
   width: 100%;
 }
 
 .topsection h3 {
+  margin-left: 4%;
   font-family: 'Shadows Into Light', cursive;
   width: 100%;
 }
@@ -62,7 +65,6 @@ body {
   height: 60%;
   width: 90%;
   margin:5% 5%;
-  /* background-color: orange; */
 }
 
 .leftsection {
@@ -74,7 +76,8 @@ body {
 }
 
 .leftsection h2 {
-  margin-top: 5%;
+  margin-top: 3%;
+  margin-left: 2%;
 }
 
 .leftsection p {
@@ -86,7 +89,7 @@ body {
   position: relative;
   bottom: 5%;
   width: 100%;
-  padding: 5%;
+  padding: 4%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -104,7 +107,7 @@ body {
 
 
 .rightsection div {
-  margin-top: 10%;
+  margin-top: 5%;
   width: 100%;
   display:grid;
   grid-template-columns: auto auto;
@@ -228,24 +231,155 @@ body {
   margin: 10px;
 }
 
+/* Styling for the overall container */
 .manage-users-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+  background-color: #f4f4f4;
 }
 
+
+
+/* Styling for the "Manage Users" section */
 .manage-users {
-  margin-top: 10%;
-  position: relative;
-  left: 100%;
-  transform: translateX(50%);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Styling for the user details section */
+.user-details {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Styling for the "Delete User" button */
+.delete-user-button {
+  margin-top: 15px;
+  display: block; /* Display the button as a block element */
+}
+
+/* Styling for the user information table */
+.user-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.user-info-table th,
+.user-info-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Styling for the transaction table */
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px; /* Add margin at the bottom of the transactions table */
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.transaction-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
 
 
+/* profile page styling below */
 
+/* Profile Container */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
+/* User Profile Card */
+.profile-card {
+  width: 60%;
+  margin-bottom: 5%;
+  text-align: center;
+  margin-top: 5%;
+  background-color: blanchedalmond;
+}
 
+/* User Profile Heading */
+.profile-heading {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
 
+/* User Information Table */
+.user-info-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  box-shadow: #ccc;
+}
 
+.user-info-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
 
+.reservations {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 20px;
+}
 
+.reservations h3 {
+  text-align: center;
+  margin: 2%;
+}
+
+.reservations p {
+  text-align: center;
+  margin: 2%;
+}
+
+.checkouts {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 20px;
+}
+
+.checkouts h3 {
+  text-align: center;
+  margin: 2%;
+}
+
+@keyframes rainbow {
+  0% { color: red; }
+  14% { color: orange; }
+  28% { color: yellow; }
+  42% { color: green; }
+  57% { color: blue; }
+  71% { color: indigo; }
+  85% { color: violet; }
+  100% { color: red; }
+}
+
+.rainbow-text {
+  animation: rainbow 6s linear infinite; /* Adjust the duration as needed */
+}
 
 

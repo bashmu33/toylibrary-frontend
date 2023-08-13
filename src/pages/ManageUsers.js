@@ -3,6 +3,7 @@ import { Dropdown, Button, Table } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext'; // Import your authentication context
 import { Redirect } from 'react-router-dom';
+import '../App.css'
 
 const ManageUsers = () => {
     const { isAdmin } = useAuth(); // Use the isAdmin function from your authentication context
@@ -70,75 +71,94 @@ const ManageUsers = () => {
 
     return (
         <div className="manage-users-container">
-            <div className="manage-users">
+          <div className="manage-users">
             <h2>Manage Users</h2>
+            
             {isAdminUser ? (
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="user-dropdown">
-                        {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {usersForDropdown.map((user) => (
-                            <Dropdown.Item
-                                key={user.user_id}
-                                onClick={() => handleUserSelect(user)}
-                                className={selectedUser && selectedUser.user_id === user.user_id ? 'selected-user' : ''}
-                            >
-                                {`${user.first_name} ${user.last_name}`}
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </Dropdown>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="user-dropdown">
+                  {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {usersForDropdown.map((user) => (
+                    <Dropdown.Item
+                      key={user.user_id}
+                      onClick={() => handleUserSelect(user)}
+                      className={selectedUser && selectedUser.user_id === user.user_id ? 'selected-user' : ''}
+                    >
+                      {`${user.first_name} ${user.last_name}`}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
             ) : (
-                <p>You do not have permission to access this page.</p>
+              <p>You do not have permission to access this page.</p>
             )}
-
-            {selectedUserDetails && (
-                <div className="user-details">
-                    <h4>User Information</h4>
-                    <p><strong>Name:</strong> {`${selectedUserDetails.first_name} ${selectedUserDetails.last_name}`}</p>
-                    <p><strong>Email:</strong> {selectedUserDetails.email}</p>
-
-                    <Button variant="danger" onClick={deleteUser}>
-                        Delete User
-                    </Button>
-
-                    <h4>User Transactions</h4>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Transaction ID</th>
-                                <th>Toy ID</th>
-                                <th>Status</th>
-                                <th>Reserve Date</th>
-                                <th>Checkout Date</th>
-                                <th>Due Date</th>
-                                <th>Return Date</th>
-                                <th>Overdue Fines</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {selectedUserDetails.transactions.map((transaction) => (
-                                <tr key={transaction.transaction_id}>
-                                    <td>{transaction.transaction_id}</td>
-                                    <td>{transaction.toy_id}</td>
-                                    <td>{transaction.status}</td>
-                                    <td>{transaction.reserve_date}</td>
-                                    <td>{transaction.checkout_date}</td>
-                                    <td>{transaction.due_date}</td>
-                                    <td>{transaction.return_date}</td>
-                                    <td>{transaction.overdue_fines}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </div>
-            )}
-
-            {error && <p className="error-message">{error}</p>}
+          </div>
+      
+          {selectedUserDetails && (
+            <div className="user-details">
+              {/* User details table */}
+              <Table striped bordered hover className="user-info-table">
+                <thead>
+                  <tr>
+                    <th colSpan="2">User Information</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name:</td>
+                    <td>{`${selectedUserDetails.first_name} ${selectedUserDetails.last_name}`}</td>
+                  </tr>
+                  <tr>
+                    <td>Email:</td>
+                    <td>{selectedUserDetails.email}</td>
+                  </tr>
+                  {/* Add other user information here */}
+                </tbody>
+              </Table>
+      
+              {/* User transactions table */}
+              <Table striped bordered hover className="transaction-table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Toy ID</th>
+                    <th>Status</th>
+                    <th>Reserve Date</th>
+                    <th>Checkout Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Overdue Fines</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedUserDetails.transactions.map((transaction) => (
+                    <tr key={transaction.transaction_id}>
+                      <td>{transaction.transaction_id}</td>
+                      <td>{transaction.toy_id}</td>
+                      <td>{transaction.status}</td>
+                      <td>{transaction.reserve_date}</td>
+                      <td>{transaction.checkout_date}</td>
+                      <td>{transaction.due_date}</td>
+                      <td>{transaction.return_date}</td>
+                      <td>{transaction.overdue_fines}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+      
+              {/* Delete User button */}
+              <Button variant="danger" className="delete-user-button" onClick={deleteUser}>
+                Delete User
+              </Button>
+            </div>
+          )}
+      
+          {error && <p className="error-message">{error}</p>}
         </div>
-    </div>
-    );
-};
+      );
+      
+                  }
 
 export default ManageUsers;
