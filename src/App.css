@@ -97,7 +97,7 @@ body {
 
 .buttoncontainer button {
   flex: 0 0 48%;
-  margin: 5px;
+  margin: 4px;
 }
 
 .buttoncontainer button.full-width {
@@ -380,6 +380,15 @@ body {
 
 .rainbow-text {
   animation: rainbow 6s linear infinite; /* Adjust the duration as needed */
+}
+
+
+.signup-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0 15px;
 }
 
 

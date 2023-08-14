@@ -10,6 +10,7 @@ import CheckOut from './pages/CheckOut';
 import ProfilePage from './pages/ProfilePage';
 import ManageUsers from './pages/ManageUsers';
 import RegistrationPage from './pages/RegistrationPage'
+import { JumbotronSection, DonationSection } from './components/MainSection';
 import { useHistory } from 'react-router-dom'; // useHistory hook
 import { AuthProvider } from './contexts/AuthContext';
 
@@ -38,6 +39,8 @@ const App = () => {
             <Route path="/profile" component={ProfilePage} />
             <Route exact path="/">
               <MainSection handleToyInventoryClick={handleViewToyInventory} />
+              <JumbotronSection />
+              <DonationSection /> 
             </Route>
           </Switch>
         </div>

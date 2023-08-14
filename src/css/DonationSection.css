@@ -1,0 +1,53 @@
+/* DonationSection.css */
+
+.donation-section {
+    margin: 20px;
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    padding: 20px;
+    max-width: 100%;
+    position: relative;
+    float: left;
+    width: 95%;
+    height: auto; /* Set to 'auto' for dynamic height */
+  }
+  
+  .donation-content {
+    max-width: 100%;
+    margin: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+  
+  .donation-text {
+    flex: 1;
+  }
+  
+  .donation-text h2 {
+    font-size: 28px;
+    margin: 0;
+    margin-bottom: 10px; /* Adjust margin-bottom to your preference */
+  }
+  
+  .donation-text p {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    margin-bottom: 20px; /* Adjust margin-bottom to your preference */
+  }
+  
+  .donate-button {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5%; /* Align button to the right */
+  }
+  
+  

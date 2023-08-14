@@ -1,0 +1,22 @@
+.nav-space {
+    margin-top: 10%;
+  }
+  
+  .space {
+    margin-top: 10%;
+  }
+
+  .centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure the container covers the full viewport height */
+  }
+
+  .center-horizontal {
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+  

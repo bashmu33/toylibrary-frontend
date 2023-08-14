@@ -1,164 +1,176 @@
-import React, { useState, useEffect } from 'react';
-import { Dropdown, Button, Table } from 'react-bootstrap';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Dropdown, Button, Card, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext'; // Import your authentication context
-import { Redirect } from 'react-router-dom';
-import '../App.css'
+import { useAuth } from '../contexts/AuthContext';
+import '../App.css';
+import '../css/ManageUsers.css';
 
 const ManageUsers = () => {
-    const { isAdmin } = useAuth(); // Use the isAdmin function from your authentication context
-    const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [selectedUserDetails, setSelectedUserDetails] = useState(null);
-    const [error, setError] = useState(null);
-    const [isAdminUser, setIsAdminUser] = useState(false);
+  const { isAdmin } = useAuth();
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUserDetails, setSelectedUserDetails] = useState(null);
+  const [clickedTransaction, setClickedTransaction] = useState(null);
+  const [error, setError] = useState(null);
+  const [isAdminUser, setIsAdminUser] = useState(false);
+  const memoizedIsAdmin = useMemo(() => isAdmin(), []);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get('https://toy-library.onrender.com/users');
-                console.log('Fetched Users:', response.data);
-                setUsers(response.data);
-            } catch (error) {
-                setError('Error fetching users');
-            }
-        };
-
-        const checkAdminStatus = async () => {
-            const adminStatus = await isAdmin();
-            setIsAdminUser(adminStatus);
-            console.log('isAdminUser:', adminStatus);
-        };
-
-        fetchUsers();
-        checkAdminStatus();
-    }, []);
-
-    const handleUserSelect = async (user) => {
-        setSelectedUser(user);
-        setError(null);
-
-        try {
-            const response = await axios.get(`https://toy-library.onrender.com/transactions/user/${user.user_id}`);
-            setSelectedUserDetails({
-                ...user,
-                transactions: response.data,
-            });
-        } catch (error) {
-            setError('Error fetching user transactions');
-        }
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('https://toy-library.onrender.com/users');
+        console.log('Fetched Users:', response.data);
+        setUsers(response.data);
+      } catch (error) {
+        setError('Error fetching users');
+      }
     };
 
-    const deleteUser = async () => {
-        console.log('Deleting user:', selectedUser);
-        if (!selectedUser) return;
-    
-        try {
-            await axios.delete(`https://toy-library.onrender.com/users/${selectedUser.user_id}`);
-            console.log('User deleted successfully.');
-            setSelectedUser(null);
-            setSelectedUserDetails(null);
-            setUsers(users.filter(user => user.user_id !== selectedUser.user_id));
-        } catch (error) {
-            console.error('Error deleting user:', error);
-            setError('Error deleting user');
-        }
+    const checkAdminStatus = async () => {
+      const adminStatus = await memoizedIsAdmin;
+      setIsAdminUser(adminStatus);
+      console.log('isAdminUser:', adminStatus);
     };
 
-    // Filter out the admin user from the users list
-    const usersForDropdown = users.filter(user => !user.isAdmin);
+    fetchUsers();
+    checkAdminStatus();
+  }, [memoizedIsAdmin]);
 
+  const handleUserSelect = async (user) => {
+    setSelectedUser(user);
+    setSelectedUserDetails(null); // Reset selectedUserDetails
+    setClickedTransaction(null);   // Reset clickedTransaction
+    setError(null);
 
-    return (
-        <div className="manage-users-container">
-          <div className="manage-users">
-            <h2>Manage Users</h2>
-            
-            {isAdminUser ? (
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="user-dropdown">
-                  {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {usersForDropdown.map((user) => (
-                    <Dropdown.Item
-                      key={user.user_id}
-                      onClick={() => handleUserSelect(user)}
-                      className={selectedUser && selectedUser.user_id === user.user_id ? 'selected-user' : ''}
-                    >
-                      {`${user.first_name} ${user.last_name}`}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            ) : (
-              <p>You do not have permission to access this page.</p>
-            )}
-          </div>
-      
-          {selectedUserDetails && (
-            <div className="user-details">
-              {/* User details table */}
-              <Table striped bordered hover className="user-info-table">
-                <thead>
-                  <tr>
-                    <th colSpan="2">User Information</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Name:</td>
-                    <td>{`${selectedUserDetails.first_name} ${selectedUserDetails.last_name}`}</td>
-                  </tr>
-                  <tr>
-                    <td>Email:</td>
-                    <td>{selectedUserDetails.email}</td>
-                  </tr>
-                  {/* Add other user information here */}
-                </tbody>
-              </Table>
-      
-              {/* User transactions table */}
-              <Table striped bordered hover className="transaction-table">
-                <thead>
-                  <tr>
-                    <th>Transaction ID</th>
-                    <th>Toy ID</th>
-                    <th>Status</th>
-                    <th>Reserve Date</th>
-                    <th>Checkout Date</th>
-                    <th>Due Date</th>
-                    <th>Return Date</th>
-                    <th>Overdue Fines</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedUserDetails.transactions.map((transaction) => (
-                    <tr key={transaction.transaction_id}>
-                      <td>{transaction.transaction_id}</td>
-                      <td>{transaction.toy_id}</td>
-                      <td>{transaction.status}</td>
-                      <td>{transaction.reserve_date}</td>
-                      <td>{transaction.checkout_date}</td>
-                      <td>{transaction.due_date}</td>
-                      <td>{transaction.return_date}</td>
-                      <td>{transaction.overdue_fines}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-      
-              {/* Delete User button */}
-              <Button variant="danger" className="delete-user-button" onClick={deleteUser}>
-                Delete User
-              </Button>
+    try {
+      const response = await axios.get(`https://toy-library.onrender.com/transactions/user/${user.user_id}`);
+      setSelectedUserDetails({
+        ...user,
+        transactions: response.data,
+      });
+    } catch (error) {
+      setError('Error fetching user transactions');
+    }
+  };
+
+  const handleTransactionClick = (transaction) => {
+    setClickedTransaction(transaction);
+  };
+
+  const deleteUser = async () => {
+    console.log('Deleting user:', selectedUser);
+    if (!selectedUser) return;
+
+    try {
+      await axios.delete(`https://toy-library.onrender.com/users/${selectedUser.user_id}`);
+      console.log('User deleted successfully.');
+      setSelectedUser(null);
+      setSelectedUserDetails(null);
+      setUsers(users.filter((user) => user.user_id !== selectedUser.user_id));
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      setError('Error deleting user');
+    }
+  };
+
+  const usersForDropdown = users.filter((user) => !user.isAdmin);
+
+  return (
+    <div className="manage-users-container">
+      <Container className="center-horizontal">
+        <div className="nav-space"></div> {/* Space between navbar and component */}
+      </Container>
+      <Container>
+        <Row>
+          <Col>
+            <div className="manage-users">
+              <h2>Manage Users</h2>
+              {isAdminUser ? (
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="user-dropdown">
+                    {selectedUser ? `${selectedUser.first_name} ${selectedUser.last_name}` : 'Select User'}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {usersForDropdown.map((user) => (
+                      <Dropdown.Item
+                        key={user.user_id}
+                        onClick={() => handleUserSelect(user)}
+                        className={selectedUser && selectedUser.user_id === user.user_id ? 'selected-user' : ''}
+                      >
+                        {`${user.first_name} ${user.last_name}`}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <p>You do not have permission to access this page.</p>
+              )}
             </div>
-          )}
-      
-          {error && <p className="error-message">{error}</p>}
-        </div>
-      );
-      
-                  }
+
+            {selectedUserDetails && (
+              <div className="user-details">
+                <Card className="user-card" style={{ width: '400px' }}>
+                  <Card.Body>
+                    <Card.Title>User Details</Card.Title>
+                    <ul className="user-list">
+                      <li><strong>Name:</strong> {`${selectedUserDetails.first_name} ${selectedUserDetails.last_name}`}</li>
+                      <li><strong>Email:</strong> {selectedUserDetails.email}</li>
+                      <li><strong>Phone Number:</strong> {selectedUserDetails.phone_number}</li>
+                    </ul>
+                    <Button variant="danger" className="delete-user-button" onClick={deleteUser}>
+                      Delete User
+                    </Button>
+                  </Card.Body>
+                </Card>
+
+                <div className="space"></div> {/* Space between user details and dropdown */}
+
+                {selectedUserDetails.transactions.length > 0 && (
+                  <div className="transaction-dropdown">
+                    <Dropdown>
+                      <Dropdown.Toggle variant="secondary" id="transaction-dropdown">
+                        Select Transaction
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {selectedUserDetails.transactions.map((transaction) => (
+                          <Dropdown.Item
+                            key={transaction.transaction_id}
+                            onClick={() => handleTransactionClick(transaction)}
+                          >
+                            Transaction ID: {transaction.transaction_id}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                )}
+
+                {clickedTransaction && (
+                  <div className="transaction-details">
+                    <Card className="transaction-card" style={{ width: '250px' }}>
+                      <Card.Body>
+                        <Card.Title>Transaction Details</Card.Title>
+                        <ul>
+                          <li><strong>Transaction ID:</strong> {clickedTransaction.transaction_id}</li>
+                          <li><strong>Toy ID:</strong> {clickedTransaction.toy_id}</li>
+                          <li><strong>Status:</strong> {clickedTransaction.status}</li>
+                        </ul>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                )}
+
+                <div className="space"></div> {/* Space between transactions and delete button */}
+
+              </div>
+            )}
+
+            {error && <p className="error-message">{error}</p>}
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
 
 export default ManageUsers;

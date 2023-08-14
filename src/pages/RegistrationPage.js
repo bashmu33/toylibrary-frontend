@@ -23,10 +23,6 @@ useEffect(() => {
 }, [currentUser]);
     
 
-console.log('currentUser:', currentUser);
-console.log('currentUser.uid:', currentUser.uid);
-
-
 async function handleSubmit(e) {
     e.preventDefault();
 
