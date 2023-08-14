@@ -38,8 +38,8 @@ const ManageUsers = () => {
 
   const handleUserSelect = async (user) => {
     setSelectedUser(user);
-    setSelectedUserDetails(null); // Reset selectedUserDetails
-    setClickedTransaction(null);   // Reset clickedTransaction
+    setSelectedUserDetails(null); 
+    setClickedTransaction(null);   
     setError(null);
 
     try {
@@ -53,9 +53,22 @@ const ManageUsers = () => {
     }
   };
 
-  const handleTransactionClick = (transaction) => {
+  const handleTransactionClick = async (transaction) => {
     setClickedTransaction(transaction);
+  
+    try {
+      const response = await axios.get(`https://toy-library.onrender.com/toys/${transaction.toy_id}`);
+      const toyDetails = response.data;
+  
+      setClickedTransaction({
+        ...transaction,
+        toy_status: toyDetails.toy_status,
+      });
+    } catch (error) {
+      setError('Error fetching transaction details');
+    }
   };
+  
 
   const deleteUser = async () => {
     console.log('Deleting user:', selectedUser);
@@ -78,7 +91,7 @@ const ManageUsers = () => {
   return (
     <div className="manage-users-container">
       <Container className="center-horizontal">
-        <div className="nav-space"></div> {/* Space between navbar and component */}
+        <div className="nav-space"></div> 
       </Container>
       <Container>
         <Row>
@@ -153,7 +166,7 @@ const ManageUsers = () => {
                         <ul>
                           <li><strong>Transaction ID:</strong> {clickedTransaction.transaction_id}</li>
                           <li><strong>Toy ID:</strong> {clickedTransaction.toy_id}</li>
-                          <li><strong>Status:</strong> {clickedTransaction.status}</li>
+                          <li><strong>Status:</strong> {clickedTransaction.toy_status}</li>
                         </ul>
                       </Card.Body>
                     </Card>

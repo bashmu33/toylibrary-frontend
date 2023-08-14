@@ -62,25 +62,27 @@ const handleCheckoutButtonClick = async () => {
             setError(null);
             alert(`Toy checked out successfully.`);
 
-            // Uncomment the Twilio API call here and update with your own logic
-            /*
-            await axios.post(
-                `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
-                new URLSearchParams({
-                    MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
-                    To: selectedUser.phone_number,
-                    Body: `Hi ${selectedUser.first_name}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
-                    ScheduleType: 'fixed',
-                    SendAt: dueDate.toISOString(),
-                }),
-                {
-                    auth: {
-                        username: YOUR_TWILIO_ACCOUNT_SID,
-                        password: YOUR_TWILIO_AUTH_TOKEN,
-                    },
-                }
-            );
-            */
+        
+        // const dueDate = new Date();
+        //     dueDate.setDate(dueDate.getDate() + 26);
+        
+        await axios.post(
+            `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
+            new URLSearchParams({
+                MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
+                To: selectedUser.phone_number,
+                Body: `Hi ${selectedUser.first_name}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
+                // ScheduleType: 'fixed',
+                // SendAt: dueDate.toISOString(),
+            }),
+            {
+                auth: {
+                    username: YOUR_TWILIO_ACCOUNT_SID,
+                    password: YOUR_TWILIO_AUTH_TOKEN,
+                },
+            }
+        );
+    
         }
     } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
