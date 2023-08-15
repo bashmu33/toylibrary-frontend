@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { useAuth } from '../contexts/AuthContext';
 import { signInWithEmailAndPassword } from 'firebase/auth'; 
 import { auth } from '../firebase'; 
 import { Link, useHistory } from 'react-router-dom';
@@ -20,7 +19,7 @@ async function handleSubmit(e) {
     setLoading(true);
     await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
     history.push("/")
-    // Use signInWithEmailAndPassword to login with email and password
+    
     } catch (error) {
     setError('Failed to sign in');
     }

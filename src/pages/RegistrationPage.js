@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
-import { addUserToBackend } from '../api'; // Import the function to add the user data to the backend
+import { addUserToBackend } from '../api'; 
 
 export default function RegistrationPage() {
 const firstNameRef = useRef();
@@ -17,7 +17,7 @@ const history = useHistory();
 
 useEffect(() => {
     if (currentUser) {
-    // User data has been fetched
+    
     setFetchingUser(false);
     }
 }, [currentUser]);
@@ -44,9 +44,6 @@ async function handleSubmit(e) {
             return;
         }
 
-    console.log('currentUser:', currentUser);
-    console.log('currentUser.uid:', currentUser.uid);
-
     const userData = {
         first_name: firstNameRef.current.value,
         last_name: lastNameRef.current.value,
@@ -56,8 +53,8 @@ async function handleSubmit(e) {
         firebase_uid: currentUser.uid, 
     };
 
-    await addUserToBackend(userData); // Call the API function to add the user data to the backend
-    history.push('/'); // Redirect to the homepage after successful registration
+    await addUserToBackend(userData); 
+    history.push('/');
 
     } catch (error) {
     setError('Failed to register');

@@ -8,11 +8,10 @@ const kBaseUrl = "https://toy-library.onrender.com";
 
   const ToyInventory = () => {
       const [toys, setToys] = useState([]);
-      const auth = getAuth(); // Get the auth object
+      const auth = getAuth(); 
       const history = useHistory();
     
       useEffect(() => {
-        // get toy information from the backend API
         const fetchToys = async () => {
           try {
             const response = await axios.get(`${kBaseUrl}/toys`);
@@ -43,7 +42,6 @@ const kBaseUrl = "https://toy-library.onrender.com";
     };
 
     const handleCheckOutButtonClick = (toy_id) => {
-      // Route to the checkout page with the toy_id as a prop
       history.push({
         pathname: '/checkout',
         state: { toy_id: toy_id }
@@ -51,14 +49,14 @@ const kBaseUrl = "https://toy-library.onrender.com";
     };
 
     const handleReturnButtonClick = async (toy_id) => {
-      // Handle returning a toy
+      
       try {
         const response = await axios.post(
           `${kBaseUrl}/transactions/${toy_id}/return_toy`
         );
   
         if (response.status === 200) {
-          // Update toy status to 'available'
+          
           setToys((prevToys) => {
             const updatedToys = prevToys.map((toy) =>
               toy.toy_id === toy_id

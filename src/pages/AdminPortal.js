@@ -54,7 +54,7 @@ const AdminPortal = () => {
         axios.post('https://toy-library.onrender.com/toys', newToy)
             .then(response => {
                 console.log('New Toy:', response.data.new_toy);
-                // Clear form after submitting
+                
                 setFormData({
                     toy_name: '',
                     description: '',

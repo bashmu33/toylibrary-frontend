@@ -11,15 +11,14 @@ import ProfilePage from './pages/ProfilePage';
 import ManageUsers from './pages/ManageUsers';
 import RegistrationPage from './pages/RegistrationPage'
 import { JumbotronSection, DonationSection } from './components/MainSection';
-import { useHistory } from 'react-router-dom'; // useHistory hook
+import { useHistory } from 'react-router-dom'; 
 import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => {
 
-  const history = useHistory(); // Creates history object
+  const history = useHistory(); 
 
   const handleViewToyInventory = () => {
-    // Navigate to the ToyInventory page
     history.push('/toy-inventory');
   };
 

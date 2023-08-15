@@ -11,10 +11,8 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-//Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-//Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
 export { auth };

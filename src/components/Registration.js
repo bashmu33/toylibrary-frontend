@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { addUserToBackend } from '../api'; // Import a function to add the user data to the backend
-import { useAuth } from '../contexts/AuthContext'; // Import the AuthContext for accessing the currentUser
+import { addUserToBackend } from '../api'; 
+import { useAuth } from '../contexts/AuthContext'; 
 
 export default function RegistrationPage() {
   const firstNameRef = useRef();
@@ -26,7 +26,7 @@ export default function RegistrationPage() {
         date_of_birth: dateOfBirthRef.current.value,
         phone_number: phoneNumberRef.current.value,
         email: currentUser.email,
-        firebase_uid: currentUser.uid, // Add this line to include the Firebase UID
+        firebase_uid: currentUser.uid,
       };
   
       await addUserToBackend(userData);

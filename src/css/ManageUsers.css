@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Ensure the container covers the full viewport height */
+    min-height: 100vh; 
   }
 
   .center-horizontal {

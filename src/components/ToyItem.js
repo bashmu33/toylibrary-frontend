@@ -81,7 +81,6 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
       );
   
       if (response.status === 200) {
-        // Change toy status to 'available'
         setToys((prevToys) => {
           const updatedToys = prevToys.map((toy) =>
             toy.toy_id === toy_id
@@ -97,10 +96,9 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
   };
   
 
-  //button logic to render buttons based on admin vs logged in vs everyone else
   const renderButtons = () => {
     if (!isLoggedIn) {
-      return null; // No buttons for non-logged-in users
+      return null;
     } else if (isAdminUser) {
       if (toy_status === 'available') {
         return (
@@ -136,7 +134,7 @@ const ToyItem = ({ toy, setToys, onCheckOutButtonClick }) => {
           </div>
         );
       }
-    } else { // Non-admin user
+    } else { 
       if (toy_status === 'available') {
         return (
           <Button

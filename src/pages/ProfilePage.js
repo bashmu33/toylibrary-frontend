@@ -30,7 +30,6 @@ const ProfilePage = () => {
         const reservationsResponse = await axios.get(`${kBaseUrl}/transactions/user/${userId}/reservations`);
         const checkoutsResponse = await axios.get(`${kBaseUrl}/transactions/user/${userId}/checkouts`);
   
-        // Fetch toy details for each reservation
         const reservationsWithToys = await Promise.all(
           reservationsResponse.data.map(async (reservation) => {
             const toyResponse = await axios.get(`${kBaseUrl}/toys/${reservation.toy_id}`);
@@ -41,7 +40,6 @@ const ProfilePage = () => {
           })
         );
 
-        // Fetch toy details for each checkout
         const checkoutsWithToys = await Promise.all(
           checkoutsResponse.data.map(async (checkout) => {
             const toyResponse = await axios.get(`${kBaseUrl}/toys/${checkout.toy_id}`);
@@ -62,7 +60,7 @@ const ProfilePage = () => {
     if (auth.currentUser) {
       fetchUserProfile();
   
-      // Fetch user_id associated with the uid
+      
       axios.get(`${kBaseUrl}/users/uid/${auth.currentUser.uid}`)
         .then(response => {
           const user_id = response.data.user_id;

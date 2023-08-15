@@ -1,13 +1,11 @@
 import React from 'react';
 import ImageHolder from './ImageHolder';
-import SearchBar from './SearchBar';
 import { withRouter } from 'react-router-dom';
 import '../App.css'
 import '../css/DonationSection.css'
 
 const MainSection = ({ history }) => {
   const handleToyInventoryClick = () => {
-    //navigates to the ToyInventory page
     history.push('/toy-inventory');
   };
 

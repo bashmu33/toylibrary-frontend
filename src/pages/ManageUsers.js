@@ -173,7 +173,7 @@ const ManageUsers = () => {
                   </div>
                 )}
 
-                <div className="space"></div> {/* Space between transactions and delete button */}
+                <div className="space"></div>
 
               </div>
             )}

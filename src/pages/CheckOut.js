@@ -54,42 +54,41 @@ const handleCheckoutButtonClick = async () => {
         );
 
         if (response.status === 200) {
+            const checkoutUser = `${selectedUser.first_name} ${selectedUser.last_name}`;
+
+            
             setToy((prevToy) => ({
                 ...prevToy,
                 toy_status: 'checked_out',
             }));
 
-            setError(null);
-            alert(`Toy checked out successfully.`);
+            setError(null); 
+            alert(`Toy checked out successfully by ${checkoutUser}.`);
 
-        
+           
         // const dueDate = new Date();
-        //     dueDate.setDate(dueDate.getDate() + 26);
-        
-        await axios.post(
-            `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
-            new URLSearchParams({
-                MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
-                To: selectedUser.phone_number,
-                Body: `Hi ${selectedUser.first_name}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
-                // ScheduleType: 'fixed',
-                // SendAt: dueDate.toISOString(),
-            }),
-            {
-                auth: {
-                    username: YOUR_TWILIO_ACCOUNT_SID,
-                    password: YOUR_TWILIO_AUTH_TOKEN,
-                },
-            }
-        );
-    
+        // dueDate.setDate(dueDate.getDate() + 26);
+
+            
+        // await axios.post(
+        //     `https://api.twilio.com/2010-04-01/Accounts/${YOUR_TWILIO_ACCOUNT_SID}/Messages.json`,
+        //     new URLSearchParams({
+        //         MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
+        //         To: selectedUser.phone_number, 
+        //         Body: `Hi ${checkoutUser}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
+        //         // ScheduleType: 'fixed',
+        //         // SendAt: dueDate.toISOString(),
+        //     }),
+        //     {
+        //     auth: {
+        //         username: YOUR_TWILIO_ACCOUNT_SID,
+        //         password: YOUR_TWILIO_AUTH_TOKEN,
+        //         },
+            // }
+        // );
         }
     } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-            setError(error.response.data.message);
-        } else {
-            setError('An error occurred during checkout.');
-        }
+        
     }
 };
 

@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-// import { useAuth } from '../contexts/AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { Link, useHistory } from 'react-router-dom'
@@ -9,9 +8,8 @@ export default function SignUp() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    // const { signup } = useAuth();
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false); // Set to false initially
+    const [loading, setLoading] = useState(false);
     const history = useHistory()
 
     async function handleSubmit(e) {
