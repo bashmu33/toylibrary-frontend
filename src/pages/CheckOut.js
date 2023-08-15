@@ -11,9 +11,9 @@ const [users, setUsers] = useState([]);
 const [selectedUser, setSelectedUser] = useState(null);
 const [error, setError] = useState(null);
 
-const YOUR_TWILIO_ACCOUNT_SID = process.env.REACT_APP_TWILIO_ACCOUNT_SID;
-const YOUR_TWILIO_AUTH_TOKEN = process.env.REACT_APP_TWILIO_AUTH_TOKEN;
-const YOUR_TWILIO_MESSAGING_SERVICE = process.env.REACT_APP_TWILIO_MESSAGING_SERVICE;
+// const YOUR_TWILIO_ACCOUNT_SID = process.env.REACT_APP_TWILIO_ACCOUNT_SID;
+// const YOUR_TWILIO_AUTH_TOKEN = process.env.REACT_APP_TWILIO_AUTH_TOKEN;
+// const YOUR_TWILIO_MESSAGING_SERVICE = process.env.REACT_APP_TWILIO_MESSAGING_SERVICE;
 
 useEffect(() => {
     const fetchToy = async () => {
@@ -66,8 +66,8 @@ const handleCheckoutButtonClick = async () => {
             alert(`Toy checked out successfully by ${checkoutUser}.`);
 
            
-        // const dueDate = new Date();
-        // dueDate.setDate(dueDate.getDate() + 26);
+        // // const dueDate = new Date();
+        // // dueDate.setDate(dueDate.getDate() + 26);
 
             
         // await axios.post(
@@ -84,7 +84,7 @@ const handleCheckoutButtonClick = async () => {
         //         username: YOUR_TWILIO_ACCOUNT_SID,
         //         password: YOUR_TWILIO_AUTH_TOKEN,
         //         },
-            // }
+        //     }
         // );
         }
     } catch (error) {
