@@ -75,7 +75,7 @@ const handleCheckoutButtonClick = async () => {
         //     new URLSearchParams({
         //         MessagingServiceSid: YOUR_TWILIO_MESSAGING_SERVICE,
         //         To: selectedUser.phone_number, 
-        //         Body: `Hi ${checkoutUser}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.`,
+        //         Body: `Hi ${checkoutUser}, your toy (${toy.toy_name}) is due in 2 days. Toy ID is ${toy_id}.Please ignore this message if you have already returned the toy!`,
         //         // ScheduleType: 'fixed',
         //         // SendAt: dueDate.toISOString(),
         //     }),
@@ -88,6 +88,7 @@ const handleCheckoutButtonClick = async () => {
         // );
         }
     } catch (error) {
+        setError('This user did not reserve this toy. Please try again.');
         
     }
 };
